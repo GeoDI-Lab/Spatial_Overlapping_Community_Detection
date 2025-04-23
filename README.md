@@ -1,6 +1,7 @@
 # GUCD_NCS
 
 # Overlapping Community Detection from Mobility Network
+## manuscript under review at Nature Computational Science
 
 This repository provides a full workflow for detecting **overlapping communities** from urban **mobility networks**, using **New York City** as a demo. The process goes from raw data to spatial mapping and socioeconomic analysis.
 
