@@ -41,10 +41,10 @@ We select **New York City** as a representative case study.
 
 | File | Description |
 |------|-------------|
-| `NCS_GUCD_data_preprocessing.ipynb` | Output A and X matrix |
-| `NCS_GUCD_community_detection.ipynb` | Community detection |
-| `NCS_GUCD_mapping_to_spatial.ipynb` | Map community results to CBGs |
-| `NCS_GUCD_POI_analysis.ipynb` | Analyze community characteristics using POIs |
+| `01_data_preprocessing.ipynb` | Output A and X matrix |
+| `02_community_detection.ipynb` | Community detection |
+| `03_mapping_to_spatial.ipynb` | Map community results to CBGs |
+| `03_POI_analysis.ipynb` | Analyze community characteristics using POIs |
 | `workflow.png` | Workflow illustration |
 | `demo_data/` | Sample input and all necessary outputs to reproduce the results |
 
