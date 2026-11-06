@@ -1,0 +1,8 @@
+part,row,level,block_groups_per_city_median,block_groups_per_city_min,cities_G_defined,median_G,q25_G,q75_G,cities_G_gt_0,cities,cities_compared
+a,0 or 1 (reference),le1,245.5,88,,,,,,,
+a,2,2,156.5,95,50,0.249226,0.13039,0.566423,45,,
+a,3,3,65.5,27,50,0.797353,0.471383,1.07468,48,,
+a,4 or more,ge4,37.5,12,50,1.466,1.20005,1.72224,50,,
+b,G higher at an overlap count of 3 than at 2,G3_gt_G2,,,,,,,,45,50
+b,G higher at an overlap count of 4 or more than at 3,Gge4_gt_G3,,,,,,,,47,50
+b,G higher at both steps (2 < 3 < 4 or more),both_steps,,,,,,,,42,50

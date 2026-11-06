@@ -1,0 +1,31 @@
+group,safegraph_category,label_in_fig5a,cities_with_20_pois,cities_or_gt_1,median_log2_or,q25_log2_or,q75_log2_or
+Higher-order,Shoe Stores,Shoes,50,47,1.53376,0.768973,2.23327
+Higher-order,Traveler Accommodation,Hotels,50,48,1.51355,0.893448,2.34453
+Higher-order,Department Stores,Department stores,41,41,1.46102,1.0454,2.27584
+Higher-order,Clothing Stores,Clothing,50,48,1.12317,0.715815,1.35691
+Higher-order,"Jewelry, Luggage, and Leather Goods Stores",Jewellery & luggage,47,39,0.770983,0.285787,1.47014
+Higher-order,Furniture Stores,Furniture,50,43,0.727332,0.32538,1.16313
+Higher-order,Specialty (except Psychiatric and Substance Abuse) Hospitals,Specialty hospitals,45,38,0.721528,0.379702,1.35699
+Higher-order,Home Furnishings Stores,Home furnishings,49,39,0.556431,0.112596,1.00586
+Higher-order,Building Material and Supplies Dealers,Building materials,50,39,0.523773,0.0858388,0.77004
+Higher-order,"Colleges, Universities, and Professional Schools",Colleges & universities,48,37,0.521879,0.0364617,1.05135
+Higher-order,Automobile Dealers,Car dealers,48,39,0.513394,0.162962,1.0563
+Higher-order,"Sporting Goods, Hobby, and Musical Instrument Stores",Sporting goods & hobby,50,36,0.304369,-0.0646523,0.541415
+Higher-order,Electronics and Appliance Stores,Electronics & appliances,50,33,0.198957,-0.20012,0.698846
+Higher-order,"General Merchandise Stores, including Warehouse Clubs and Supercenters",General merch. & supercentres,48,20,-0.0911398,-0.338284,0.282267
+Higher-order,"Museums, Historical Sites, and Similar Institutions",Parks & museums (mostly parks),50,1,-0.731722,-1.13835,-0.47811
+Everyday,Depository Credit Intermediation,Banks,50,47,0.506123,0.385091,0.697173
+Everyday,Health and Personal Care Stores,Pharmacies & health stores,50,43,0.248669,0.120382,0.395397
+Everyday,Other Personal Services,Other personal services,50,29,0.0783399,-0.320539,0.388063
+Everyday,Offices of Dentists,Dentists,50,29,0.0668311,-0.183682,0.344763
+Everyday,"Automotive Parts, Accessories, and Tire Stores",Auto parts & tyres,50,26,0.0310406,-0.241632,0.391852
+Everyday,Automotive Repair and Maintenance,Auto repair,50,25,-0.00346094,-0.208727,0.310167
+Everyday,Personal and Household Goods Repair and Maintenance,Household goods repair,45,19,-0.0974226,-0.457371,0.237782
+Everyday,Gasoline Stations,Gas stations,50,19,-0.122922,-0.346775,0.160662
+Everyday,Bakeries and Tortilla Manufacturing,Bakeries,49,19,-0.152062,-0.428608,0.31709
+Everyday,Personal Care Services,Personal care,50,14,-0.2574,-0.426785,0.0782238
+Everyday,Grocery Stores,Grocery stores,50,3,-0.434196,-0.645273,-0.291523
+Everyday,"Beer, Wine, and Liquor Stores",Liquor stores,47,10,-0.449916,-0.7315,-0.119795
+Everyday,Child Day Care Services,Child day care,49,0,-1.05636,-1.25858,-0.83121
+Everyday,Religious Organizations,Religious organizations,50,0,-1.10198,-1.42869,-0.904213
+Everyday,Elementary and Secondary Schools,Schools (K-12),50,0,-1.14067,-1.40714,-0.829312

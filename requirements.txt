@@ -1,0 +1,8 @@
+numpy>=1.24
+scipy>=1.10
+pandas>=2.0
+torch>=2.0
+# building the atlas data (website/build_site_data.py) only
+geopandas>=0.14
+shapely>=2.0
+pyproj>=3.6

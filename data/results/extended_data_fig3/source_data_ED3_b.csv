@@ -1,0 +1,7 @@
+fit,K,spearman_rho_mean_overlap_count_vs_population,p_two_sided,n_cities,drawn_at_K
+one training seed (seed 0),6,-0.7196638655462185,3.882560968045797e-09,50,6.0
+one training seed (seed 0),8,-0.7230252100840336,3.032908944253108e-09,50,8.0
+one training seed (seed 0),10,-0.7212004801920768,3.469586746567126e-09,50,9.65
+one training seed (seed 0),12,-0.7317647058823529,1.568759121340431e-09,50,12.0
+one training seed (seed 0),15,-0.7510684273709483,3.327302721190715e-10,50,15.0
+F of a (lowest L1 of five training seeds),10,-0.7342617046818728,1.2933445075829284e-09,50,10.35

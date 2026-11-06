@@ -1,0 +1,351 @@
+city,variable,block_group_set,n_set,n_used,rho,n_all_finite,rho_all_finite_set
+Albuquerque,log_income,S (H_inc set),417,387,-0.1681537323,387,-0.1681537323
+Albuquerque,share_White,S (H_inc set),417,414,-0.08449424251,387,-0.08046599264
+Albuquerque,share_Black,S (H_inc set),417,414,0.1102617175,387,0.112513072
+Albuquerque,share_AIAN,S (H_inc set),417,414,0.07623833586,387,0.0509485816
+Albuquerque,share_Asian,S (H_inc set),417,414,0.0856847147,387,0.1068812907
+Albuquerque,H_inc,S (H_inc set),417,417,0.2183063978,387,0.2390906439
+Albuquerque,H_race,S_race (H_race set),417,417,0.2474644447,387,0.2538875308
+Atlanta,log_income,S (H_inc set),445,386,0.08243737547,386,0.08243737547
+Atlanta,share_White,S (H_inc set),445,443,0.1569675473,386,0.1533909456
+Atlanta,share_Black,S (H_inc set),445,443,-0.175298584,386,-0.1747677292
+Atlanta,share_AIAN,S (H_inc set),445,443,0.09430417462,386,0.09948971381
+Atlanta,share_Asian,S (H_inc set),445,443,0.2273948715,386,0.2165064854
+Atlanta,H_inc,S (H_inc set),445,445,0.29530412,386,0.3160771483
+Atlanta,H_race,S_race (H_race set),445,445,0.3486230784,386,0.3423811514
+Austin,log_income,S (H_inc set),674,621,-0.06523901699,621,-0.06523901699
+Austin,share_White,S (H_inc set),674,670,-0.02085973269,621,-0.03808723829
+Austin,share_Black,S (H_inc set),674,670,0.0431661641,621,0.05770664847
+Austin,share_AIAN,S (H_inc set),674,670,0.03491673934,621,0.02231722828
+Austin,share_Asian,S (H_inc set),674,670,0.02917367817,621,0.0293698642
+Austin,H_inc,S (H_inc set),674,674,0.1701708588,621,0.1659775844
+Austin,H_race,S_race (H_race set),674,674,-0.01368758282,621,0.007556353514
+Bakersfield,log_income,S (H_inc set),315,298,-0.0915156303,298,-0.0915156303
+Bakersfield,share_White,S (H_inc set),315,313,-0.1281812055,298,-0.1369442561
+Bakersfield,share_Black,S (H_inc set),315,313,0.09488796769,298,0.1057142763
+Bakersfield,share_AIAN,S (H_inc set),315,313,0.1139758786,298,0.1013382652
+Bakersfield,share_Asian,S (H_inc set),315,313,0.1207894922,298,0.1458196435
+Bakersfield,H_inc,S (H_inc set),315,315,0.04307395686,298,0.06146710288
+Bakersfield,H_race,S_race (H_race set),315,315,0.1853703104,298,0.1670397865
+Baltimore,log_income,S (H_inc set),614,532,-0.0461956298,532,-0.0461956298
+Baltimore,share_White,S (H_inc set),614,608,0.0967796611,532,0.08433631003
+Baltimore,share_Black,S (H_inc set),614,608,-0.1125248912,532,-0.1022120161
+Baltimore,share_AIAN,S (H_inc set),614,608,0.07570595625,532,0.06149604169
+Baltimore,share_Asian,S (H_inc set),614,608,0.1523779915,532,0.1487310387
+Baltimore,H_inc,S (H_inc set),614,614,0.1200164351,532,0.1244682647
+Baltimore,H_race,S_race (H_race set),614,614,0.2717382898,532,0.2915455333
+Boston,log_income,S (H_inc set),581,485,-0.1761867878,485,-0.1761867878
+Boston,share_White,S (H_inc set),581,566,-0.2377150886,485,-0.2464331664
+Boston,share_Black,S (H_inc set),581,566,0.2301831308,485,0.2567206764
+Boston,share_AIAN,S (H_inc set),581,566,0.08278767783,485,0.07585513413
+Boston,share_Asian,S (H_inc set),581,566,-0.01996265774,485,-0.02480048149
+Boston,H_inc,S (H_inc set),581,581,0.1261708346,485,0.1452453094
+Boston,H_race,S_race (H_race set),581,581,0.2621541276,485,0.2806134529
+Charlotte,log_income,S (H_inc set),541,521,-0.04379518048,521,-0.04379518048
+Charlotte,share_White,S (H_inc set),541,539,0.1028140439,521,0.09120980711
+Charlotte,share_Black,S (H_inc set),541,539,-0.1282029421,521,-0.1279251368
+Charlotte,share_AIAN,S (H_inc set),541,539,0.01191165019,521,-0.0002928776037
+Charlotte,share_Asian,S (H_inc set),541,539,0.02031182818,521,0.03246924334
+Charlotte,H_inc,S (H_inc set),541,541,0.09748040181,521,0.09736676191
+Charlotte,H_race,S_race (H_race set),541,541,-0.08488341129,521,-0.08568302946
+Chicago,log_income,S (H_inc set),2152,1959,0.0865419823,1959,0.0865419823
+Chicago,share_White,S (H_inc set),2152,2146,0.07671852837,1959,0.0708052983
+Chicago,share_Black,S (H_inc set),2152,2146,-0.08191434114,1959,-0.07129769034
+Chicago,share_AIAN,S (H_inc set),2152,2146,0.08603516745,1959,0.09414592555
+Chicago,share_Asian,S (H_inc set),2152,2146,0.130034192,1959,0.1323852718
+Chicago,H_inc,S (H_inc set),2152,2152,0.09973514608,1959,0.09065755918
+Chicago,H_race,S_race (H_race set),2152,2152,0.161030081,1959,0.1581395069
+Colorado Springs,log_income,S (H_inc set),349,340,-0.2273605238,340,-0.2273605238
+Colorado Springs,share_White,S (H_inc set),349,348,-0.0565973896,340,-0.0662898059
+Colorado Springs,share_Black,S (H_inc set),349,348,0.1476893179,340,0.1433938681
+Colorado Springs,share_AIAN,S (H_inc set),349,348,0.1332502618,340,0.1398425541
+Colorado Springs,share_Asian,S (H_inc set),349,348,0.07334231142,340,0.05671726486
+Colorado Springs,H_inc,S (H_inc set),349,349,0.07276578466,340,0.05177643291
+Colorado Springs,H_race,S_race (H_race set),349,349,0.05513810086,340,0.04274343652
+Columbus,log_income,S (H_inc set),735,685,-0.04612498908,685,-0.04612498908
+Columbus,share_White,S (H_inc set),735,734,-0.009075948681,685,-0.02551771638
+Columbus,share_Black,S (H_inc set),735,734,0.03305543398,685,0.04890916306
+Columbus,share_AIAN,S (H_inc set),735,734,0.05703049376,685,0.03544606589
+Columbus,share_Asian,S (H_inc set),735,734,0.02695651718,685,0.0106462926
+Columbus,H_inc,S (H_inc set),735,735,0.3081727032,685,0.2957073597
+Columbus,H_race,S_race (H_race set),735,735,0.0112804673,685,0.02134752853
+Dallas,log_income,S (H_inc set),896,848,0.115626848,848,0.115626848
+Dallas,share_White,S (H_inc set),896,883,-0.01478121217,848,-0.005773869083
+Dallas,share_Black,S (H_inc set),896,883,0.06636056132,848,0.05680684742
+Dallas,share_AIAN,S (H_inc set),896,883,0.03148451266,848,0.02408319113
+Dallas,share_Asian,S (H_inc set),896,883,-0.00370800357,848,-0.00535867699
+Dallas,H_inc,S (H_inc set),896,896,0.1277279945,848,0.1211076621
+Dallas,H_race,S_race (H_race set),896,896,-0.01617861587,848,-0.02220277904
+Denver,log_income,S (H_inc set),570,523,-0.1131335386,523,-0.1131335386
+Denver,share_White,S (H_inc set),570,560,-0.006393708842,523,-0.01539634146
+Denver,share_Black,S (H_inc set),570,560,0.04397595576,523,0.04319607761
+Denver,share_AIAN,S (H_inc set),570,560,0.05523044929,523,0.04362860763
+Denver,share_Asian,S (H_inc set),570,560,0.07200877412,523,0.06351859808
+Denver,H_inc,S (H_inc set),570,570,0.1875651245,523,0.1849525838
+Denver,H_race,S_race (H_race set),570,570,0.04022082247,523,0.03468628242
+Detroit,log_income,S (H_inc set),619,529,0.01729617096,529,0.01729617096
+Detroit,share_White,S (H_inc set),619,596,0.05877218676,529,0.03301176614
+Detroit,share_Black,S (H_inc set),619,596,-0.05616432806,529,-0.03561194398
+Detroit,share_AIAN,S (H_inc set),619,596,0.08674627063,529,0.07196489698
+Detroit,share_Asian,S (H_inc set),619,596,0.06264309743,529,0.08267951548
+Detroit,H_inc,S (H_inc set),619,619,0.1634517774,529,0.1346399232
+Detroit,H_race,S_race (H_race set),619,619,0.0009751773979,529,0.009012758032
+El Paso,log_income,S (H_inc set),498,457,-0.1033921844,457,-0.1033921844
+El Paso,share_White,S (H_inc set),498,494,-0.0815974318,457,-0.05685273662
+El Paso,share_Black,S (H_inc set),498,494,0.1461111158,457,0.1650936794
+El Paso,share_AIAN,S (H_inc set),498,494,0.04108253707,457,0.01642039491
+El Paso,share_Asian,S (H_inc set),498,494,0.05687254322,457,0.07445547896
+El Paso,H_inc,S (H_inc set),498,498,0.2199200355,457,0.1892539352
+El Paso,H_race,S_race (H_race set),499,499,0.03791452417,457,0.04975646461
+Fort Worth,log_income,S (H_inc set),589,541,0.03569207998,541,0.03569207998
+Fort Worth,share_White,S (H_inc set),589,569,0.1431504926,541,0.1482518981
+Fort Worth,share_Black,S (H_inc set),589,569,-0.1365342032,541,-0.1520633367
+Fort Worth,share_AIAN,S (H_inc set),589,569,0.07488229463,541,0.07912929204
+Fort Worth,share_Asian,S (H_inc set),589,569,0.03561466048,541,0.03762309755
+Fort Worth,H_inc,S (H_inc set),589,589,0.2279850338,541,0.2085543939
+Fort Worth,H_race,S_race (H_race set),589,589,-0.1506564578,541,-0.1604789669
+Fresno,log_income,S (H_inc set),365,351,-0.2420588895,351,-0.2420588895
+Fresno,share_White,S (H_inc set),365,365,-0.1511512792,351,-0.1244044358
+Fresno,share_Black,S (H_inc set),365,365,0.09046274847,351,0.07419433959
+Fresno,share_AIAN,S (H_inc set),365,365,0.1157999785,351,0.1228421032
+Fresno,share_Asian,S (H_inc set),365,365,-0.04198962207,351,-0.05654772868
+Fresno,H_inc,S (H_inc set),365,365,0.1444352573,351,0.1342213901
+Fresno,H_race,S_race (H_race set),365,365,0.1312431522,351,0.1231307716
+Houston,log_income,S (H_inc set),2282,2086,0.1073165715,2086,0.1073165715
+Houston,share_White,S (H_inc set),2282,2276,0.05511411676,2086,0.06341947621
+Houston,share_Black,S (H_inc set),2282,2276,-0.04851236613,2086,-0.05733016719
+Houston,share_AIAN,S (H_inc set),2282,2276,-0.00306675327,2086,0.003505830116
+Houston,share_Asian,S (H_inc set),2282,2276,0.1183410612,2086,0.1145024157
+Houston,H_inc,S (H_inc set),2282,2282,0.1603034703,2086,0.1554486294
+Houston,H_race,S_race (H_race set),2282,2282,-0.008148794144,2086,-0.009891999035
+Indianapolis,log_income,S (H_inc set),709,658,0.01011162193,658,0.01011162193
+Indianapolis,share_White,S (H_inc set),709,703,0.1680501828,658,0.1512351612
+Indianapolis,share_Black,S (H_inc set),709,703,-0.1464683605,658,-0.1237307624
+Indianapolis,share_AIAN,S (H_inc set),709,703,-0.06228335635,658,-0.03893694633
+Indianapolis,share_Asian,S (H_inc set),709,703,0.1284070812,658,0.1177868971
+Indianapolis,H_inc,S (H_inc set),709,709,0.174042131,658,0.1550090638
+Indianapolis,H_race,S_race (H_race set),709,709,-0.08907940604,658,-0.07922583003
+Jacksonville,log_income,S (H_inc set),552,527,-0.04733886108,527,-0.04733886108
+Jacksonville,share_White,S (H_inc set),552,552,0.04387149188,527,0.03262096125
+Jacksonville,share_Black,S (H_inc set),552,552,-0.04078688251,527,-0.02696278769
+Jacksonville,share_AIAN,S (H_inc set),552,552,0.01228989455,527,0.002640326617
+Jacksonville,share_Asian,S (H_inc set),552,552,0.1581790117,527,0.1562448045
+Jacksonville,H_inc,S (H_inc set),552,552,0.3499266559,527,0.3457106422
+Jacksonville,H_race,S_race (H_race set),552,552,0.2962951326,527,0.2902138731
+Kansas City,log_income,S (H_inc set),507,466,-0.02130500431,466,-0.02130500431
+Kansas City,share_White,S (H_inc set),507,497,0.0287872003,466,0.01397683299
+Kansas City,share_Black,S (H_inc set),507,497,0.005840171108,466,0.02461754192
+Kansas City,share_AIAN,S (H_inc set),507,497,0.03097027263,466,0.02308112073
+Kansas City,share_Asian,S (H_inc set),507,497,0.03936673958,466,0.03100716186
+Kansas City,H_inc,S (H_inc set),507,507,0.2435510486,466,0.2329191409
+Kansas City,H_race,S_race (H_race set),507,507,-0.02095085946,466,-0.01268019947
+Las Vegas,log_income,S (H_inc set),465,446,-0.07052419058,446,-0.07052419058
+Las Vegas,share_White,S (H_inc set),465,464,-0.03385087043,446,-0.02325012837
+Las Vegas,share_Black,S (H_inc set),465,464,0.1285621276,446,0.1131667427
+Las Vegas,share_AIAN,S (H_inc set),465,464,0.05476042412,446,0.04208998186
+Las Vegas,share_Asian,S (H_inc set),465,464,0.05745434521,446,0.06486517969
+Las Vegas,H_inc,S (H_inc set),465,465,0.3756232758,446,0.373875226
+Las Vegas,H_race,S_race (H_race set),465,465,0.1582689384,446,0.1509106892
+Long Beach,log_income,S (H_inc set),330,313,-0.04281994286,313,-0.04281994286
+Long Beach,share_White,S (H_inc set),330,324,0.03698955277,313,0.04687055737
+Long Beach,share_Black,S (H_inc set),330,324,0.1046372966,313,0.1155034212
+Long Beach,share_AIAN,S (H_inc set),330,324,0.09031569063,313,0.06110324657
+Long Beach,share_Asian,S (H_inc set),330,324,0.02777984526,313,0.03847959322
+Long Beach,H_inc,S (H_inc set),330,330,0.1394255071,313,0.1449449728
+Long Beach,H_race,S_race (H_race set),330,330,0.01809753661,313,0.03577798617
+Los Angeles,log_income,S (H_inc set),2583,2444,-0.01726692669,2444,-0.01726692669
+Los Angeles,share_White,S (H_inc set),2583,2579,0.04847511779,2444,0.04191814165
+Los Angeles,share_Black,S (H_inc set),2583,2579,-0.0213152572,2444,-0.01253102094
+Los Angeles,share_AIAN,S (H_inc set),2583,2579,0.02459614243,2444,0.02534640897
+Los Angeles,share_Asian,S (H_inc set),2583,2579,0.0431679344,2444,0.04292947361
+Los Angeles,H_inc,S (H_inc set),2583,2583,0.08879302116,2444,0.09367375622
+Los Angeles,H_race,S_race (H_race set),2583,2583,-0.04070646299,2444,-0.03546066726
+Louisville+Jefferson County metro government,log_income,S (H_inc set),334,326,-0.1263118018,326,-0.1263118018
+Louisville+Jefferson County metro government,share_White,S (H_inc set),334,333,0.02444723961,326,0.01985598819
+Louisville+Jefferson County metro government,share_Black,S (H_inc set),334,333,-0.009350688636,326,-0.00320347988
+Louisville+Jefferson County metro government,share_AIAN,S (H_inc set),334,333,0.003492169609,326,0.01156703611
+Louisville+Jefferson County metro government,share_Asian,S (H_inc set),334,333,-0.03842213243,326,-0.05580427505
+Louisville+Jefferson County metro government,H_inc,S (H_inc set),334,334,0.2662281048,326,0.2598754289
+Louisville+Jefferson County metro government,H_race,S_race (H_race set),334,334,-0.02159984132,326,-0.01865141159
+Memphis,log_income,S (H_inc set),539,487,0.126288049,487,0.126288049
+Memphis,share_White,S (H_inc set),539,533,0.3072941036,487,0.298829825
+Memphis,share_Black,S (H_inc set),539,533,-0.3021891438,487,-0.2933045987
+Memphis,share_AIAN,S (H_inc set),539,533,0.1376296489,487,0.1449838767
+Memphis,share_Asian,S (H_inc set),539,533,0.2343719788,487,0.2215761477
+Memphis,H_inc,S (H_inc set),539,539,0.1565728564,487,0.1617021212
+Memphis,H_race,S_race (H_race set),539,539,0.343111606,487,0.3414166074
+Mesa,log_income,S (H_inc set),339,324,0.03514675801,324,0.03514675801
+Mesa,share_White,S (H_inc set),339,334,-0.01177535743,324,-0.02135340314
+Mesa,share_Black,S (H_inc set),339,334,0.06846625043,324,0.07286262256
+Mesa,share_AIAN,S (H_inc set),339,334,0.01353511925,324,0.02694049964
+Mesa,share_Asian,S (H_inc set),339,334,0.005409696026,324,0.02413198066
+Mesa,H_inc,S (H_inc set),339,339,0.170754756,324,0.1763889939
+Mesa,H_race,S_race (H_race set),339,339,-0.06676137578,324,-0.07210980561
+Miami,log_income,S (H_inc set),344,298,-0.1126965008,298,-0.1126965008
+Miami,share_White,S (H_inc set),344,339,0.05174297976,298,0.03937516513
+Miami,share_Black,S (H_inc set),344,339,-0.03040300731,298,-0.02890089236
+Miami,share_AIAN,S (H_inc set),344,339,0.02564417148,298,0.04223867046
+Miami,share_Asian,S (H_inc set),344,339,-0.05103295298,298,-0.04738206849
+Miami,H_inc,S (H_inc set),344,344,0.1930476335,298,0.1624914495
+Miami,H_race,S_race (H_race set),345,345,-0.008068919161,298,-0.01572341687
+Milwaukee,log_income,S (H_inc set),568,528,-0.1299587362,528,-0.1299587362
+Milwaukee,share_White,S (H_inc set),568,567,-0.1852148496,528,-0.2002869969
+Milwaukee,share_Black,S (H_inc set),568,567,0.1636844829,528,0.1774128738
+Milwaukee,share_AIAN,S (H_inc set),568,567,-0.006468422084,528,-0.005078066455
+Milwaukee,share_Asian,S (H_inc set),568,567,0.04598423538,528,0.0530638734
+Milwaukee,H_inc,S (H_inc set),568,568,0.2419261918,528,0.2583132277
+Milwaukee,H_race,S_race (H_race set),568,568,0.1828317567,528,0.1771732146
+Minneapolis,log_income,S (H_inc set),395,372,-0.1639542174,372,-0.1639542174
+Minneapolis,share_White,S (H_inc set),395,388,-0.1089232982,372,-0.1154243276
+Minneapolis,share_Black,S (H_inc set),395,388,0.1063392038,372,0.1029196904
+Minneapolis,share_AIAN,S (H_inc set),395,388,0.03428147236,372,0.02462782352
+Minneapolis,share_Asian,S (H_inc set),395,388,0.01953760343,372,0.03482894213
+Minneapolis,H_inc,S (H_inc set),395,395,0.2448871551,372,0.216054536
+Minneapolis,H_race,S_race (H_race set),395,395,0.1297495541,372,0.1317634782
+Nashville-Davidson metropolitan government,log_income,S (H_inc set),477,446,-0.1226730536,446,-0.1226730536
+Nashville-Davidson metropolitan government,share_White,S (H_inc set),477,475,-0.01955330795,446,-0.03562505511
+Nashville-Davidson metropolitan government,share_Black,S (H_inc set),477,475,-0.0004959614084,446,0.02407577252
+Nashville-Davidson metropolitan government,share_AIAN,S (H_inc set),477,475,-0.040398442,446,-0.04287544893
+Nashville-Davidson metropolitan government,share_Asian,S (H_inc set),477,475,0.0002669389262,446,-0.01497277772
+Nashville-Davidson metropolitan government,H_inc,S (H_inc set),477,477,0.1629219093,446,0.1440311917
+Nashville-Davidson metropolitan government,H_race,S_race (H_race set),477,477,0.1123266789,446,0.1162746644
+New York,log_income,S (H_inc set),6325,5523,0.04006143015,5523,0.04006143015
+New York,share_White,S (H_inc set),6325,6160,0.03338349316,5523,0.02725748725
+New York,share_Black,S (H_inc set),6325,6160,-0.05889579843,5523,-0.05566851772
+New York,share_AIAN,S (H_inc set),6325,6160,0.008176273338,5523,0.01524642126
+New York,share_Asian,S (H_inc set),6325,6160,0.08721212629,5523,0.08941285054
+New York,H_inc,S (H_inc set),6325,6325,0.06414091156,5523,0.0512315518
+New York,H_race,S_race (H_race set),6325,6325,-0.007792627593,5523,-0.01608657993
+Oakland,log_income,S (H_inc set),353,331,-0.0936628381,331,-0.0936628381
+Oakland,share_White,S (H_inc set),353,351,-0.03698669239,331,-0.04201160691
+Oakland,share_Black,S (H_inc set),353,351,-0.07239714432,331,-0.08077877865
+Oakland,share_AIAN,S (H_inc set),353,351,0.1092193951,331,0.1099807287
+Oakland,share_Asian,S (H_inc set),353,351,0.07663126377,331,0.06625924943
+Oakland,H_inc,S (H_inc set),353,353,0.2424602966,331,0.252007991
+Oakland,H_race,S_race (H_race set),353,353,0.09214339266,331,0.1014426608
+Oklahoma City,log_income,S (H_inc set),651,557,-0.1077166384,557,-0.1077166384
+Oklahoma City,share_White,S (H_inc set),651,602,0.0007799351362,557,-0.01541700462
+Oklahoma City,share_Black,S (H_inc set),651,602,0.0004528626248,557,-0.002436237225
+Oklahoma City,share_AIAN,S (H_inc set),651,602,0.01468275863,557,0.02585170373
+Oklahoma City,share_Asian,S (H_inc set),651,602,0.007603988988,557,0.02023213184
+Oklahoma City,H_inc,S (H_inc set),651,651,0.2846459571,557,0.2724452385
+Oklahoma City,H_race,S_race (H_race set),651,651,0.1416275707,557,0.1494110204
+Omaha,log_income,S (H_inc set),463,449,0.1939426056,449,0.1939426056
+Omaha,share_White,S (H_inc set),463,463,0.2144139386,449,0.2143427139
+Omaha,share_Black,S (H_inc set),463,463,-0.1587977938,449,-0.1735695511
+Omaha,share_AIAN,S (H_inc set),463,463,-0.12034964,449,-0.1278494617
+Omaha,share_Asian,S (H_inc set),463,463,0.1448898978,449,0.154190437
+Omaha,H_inc,S (H_inc set),463,463,0.1217321081,449,0.1041685398
+Omaha,H_race,S_race (H_race set),463,463,-0.29720427,449,-0.2958768987
+Philadelphia,log_income,S (H_inc set),1317,1066,0.1531183871,1066,0.1531183871
+Philadelphia,share_White,S (H_inc set),1317,1253,0.2751812105,1066,0.2609413531
+Philadelphia,share_Black,S (H_inc set),1317,1253,-0.2953015851,1066,-0.2835268418
+Philadelphia,share_AIAN,S (H_inc set),1317,1253,0.0531936234,1066,0.05349347598
+Philadelphia,share_Asian,S (H_inc set),1317,1253,0.2584910136,1066,0.262603506
+Philadelphia,H_inc,S (H_inc set),1317,1317,0.123507816,1066,0.09670182581
+Philadelphia,H_race,S_race (H_race set),1318,1318,0.226584466,1066,0.1947402497
+Phoenix,log_income,S (H_inc set),1054,988,-0.1055332474,988,-0.1055332474
+Phoenix,share_White,S (H_inc set),1054,1035,0.03751564868,988,0.04302179057
+Phoenix,share_Black,S (H_inc set),1054,1035,-0.02801266003,988,-0.03084081985
+Phoenix,share_AIAN,S (H_inc set),1054,1035,0.04095583635,988,0.04403042048
+Phoenix,share_Asian,S (H_inc set),1054,1035,0.0501747094,988,0.04694447367
+Phoenix,H_inc,S (H_inc set),1054,1054,0.2044194748,988,0.1936192783
+Phoenix,H_race,S_race (H_race set),1054,1054,-0.04649284438,988,-0.05772307293
+Portland,log_income,S (H_inc set),518,492,-0.1645097887,492,-0.1645097887
+Portland,share_White,S (H_inc set),518,517,-0.1222393971,492,-0.1181108434
+Portland,share_Black,S (H_inc set),518,517,0.1251733937,492,0.123597274
+Portland,share_AIAN,S (H_inc set),518,517,0.1346293534,492,0.1281295784
+Portland,share_Asian,S (H_inc set),518,517,0.06921181569,492,0.07402547083
+Portland,H_inc,S (H_inc set),518,518,0.1088463116,492,0.1129627021
+Portland,H_race,S_race (H_race set),518,518,0.1995972301,492,0.1966330421
+Raleigh,log_income,S (H_inc set),296,281,-0.02226325192,281,-0.02226325192
+Raleigh,share_White,S (H_inc set),296,294,0.07216795235,281,0.05844255539
+Raleigh,share_Black,S (H_inc set),296,294,-0.05167862497,281,-0.04143293026
+Raleigh,share_AIAN,S (H_inc set),296,294,0.09803876986,281,0.1071052277
+Raleigh,share_Asian,S (H_inc set),296,294,0.03168828198,281,0.05102809051
+Raleigh,H_inc,S (H_inc set),296,296,0.2987921988,281,0.3010411716
+Raleigh,H_race,S_race (H_race set),296,296,-0.08205680188,281,-0.08296367076
+Sacramento,log_income,S (H_inc set),393,376,-0.1530910364,376,-0.1530910364
+Sacramento,share_White,S (H_inc set),393,393,-0.00847525242,376,-0.01107190797
+Sacramento,share_Black,S (H_inc set),393,393,0.04854850046,376,0.04408146381
+Sacramento,share_AIAN,S (H_inc set),393,393,0.0864488107,376,0.08530374973
+Sacramento,share_Asian,S (H_inc set),393,393,-0.01464679854,376,-0.003236744837
+Sacramento,H_inc,S (H_inc set),393,393,0.2758980262,376,0.2805899852
+Sacramento,H_race,S_race (H_race set),393,393,0.01191039304,376,0.0113945712
+San Antonio,log_income,S (H_inc set),988,931,0.03958222694,931,0.03958222694
+San Antonio,share_White,S (H_inc set),988,984,-0.03869606908,931,-0.03295607779
+San Antonio,share_Black,S (H_inc set),988,984,0.1249418911,931,0.1208613398
+San Antonio,share_AIAN,S (H_inc set),988,984,0.05427547163,931,0.04685816781
+San Antonio,share_Asian,S (H_inc set),988,984,0.2289198345,931,0.2131233349
+San Antonio,H_inc,S (H_inc set),988,988,0.2040614005,931,0.2059480837
+San Antonio,H_race,S_race (H_race set),989,989,0.1248513278,931,0.114874707
+San Diego,log_income,S (H_inc set),952,905,0.03064356716,905,0.03064356716
+San Diego,share_White,S (H_inc set),952,949,-0.0005425230041,905,-0.01170302041
+San Diego,share_Black,S (H_inc set),952,949,0.05848121453,905,0.0557178342
+San Diego,share_AIAN,S (H_inc set),952,949,-0.02444133934,905,-0.02942733146
+San Diego,share_Asian,S (H_inc set),952,949,0.05198362973,905,0.06801298807
+San Diego,H_inc,S (H_inc set),952,952,0.1695788008,905,0.1622568661
+San Diego,H_race,S_race (H_race set),952,952,-0.03108528021,905,-0.02686419445
+San Francisco,log_income,S (H_inc set),671,610,-0.04344532967,610,-0.04344532967
+San Francisco,share_White,S (H_inc set),671,669,-0.0515245429,610,-0.04241093769
+San Francisco,share_Black,S (H_inc set),671,669,0.05214877689,610,0.06738106901
+San Francisco,share_AIAN,S (H_inc set),671,669,0.03480189853,610,0.04298181101
+San Francisco,share_Asian,S (H_inc set),671,669,0.09040139426,610,0.07802338984
+San Francisco,H_inc,S (H_inc set),671,671,0.173609513,610,0.1712314021
+San Francisco,H_race,S_race (H_race set),671,671,0.192643396,610,0.1984195966
+San Jose,log_income,S (H_inc set),647,623,-0.1923163113,623,-0.1923163113
+San Jose,share_White,S (H_inc set),647,647,0.03436749977,623,0.04196185696
+San Jose,share_Black,S (H_inc set),647,647,0.07507717426,623,0.07577374662
+San Jose,share_AIAN,S (H_inc set),647,647,0.1056681164,623,0.1070904397
+San Jose,share_Asian,S (H_inc set),647,647,-0.09366807958,623,-0.1042908038
+San Jose,H_inc,S (H_inc set),647,647,0.2152415152,623,0.2098925056
+San Jose,H_race,S_race (H_race set),647,647,0.1689397259,623,0.1766070366
+Seattle,log_income,S (H_inc set),536,499,-0.08787958257,499,-0.08787958257
+Seattle,share_White,S (H_inc set),536,536,-0.07436817841,499,-0.0685215796
+Seattle,share_Black,S (H_inc set),536,536,0.02763768706,499,0.02955602127
+Seattle,share_AIAN,S (H_inc set),536,536,0.05467866801,499,0.0329268956
+Seattle,share_Asian,S (H_inc set),536,536,0.1762191156,499,0.1745587471
+Seattle,H_inc,S (H_inc set),536,536,0.02173500111,499,0.04528589428
+Seattle,H_race,S_race (H_race set),536,536,0.122182038,499,0.1201064002
+Tampa,log_income,S (H_inc set),351,323,0.04854254312,323,0.04854254312
+Tampa,share_White,S (H_inc set),351,349,0.05872433223,323,0.07939749228
+Tampa,share_Black,S (H_inc set),351,349,-0.05551258411,323,-0.08955137968
+Tampa,share_AIAN,S (H_inc set),351,349,0.09695272523,323,0.08246153196
+Tampa,share_Asian,S (H_inc set),351,349,0.03844366196,323,0.03437815736
+Tampa,H_inc,S (H_inc set),351,351,0.2974015584,323,0.2990001748
+Tampa,H_race,S_race (H_race set),351,351,0.03247281566,323,0.005648548371
+Tucson,log_income,S (H_inc set),418,391,0.005522828701,391,0.005522828701
+Tucson,share_White,S (H_inc set),418,416,0.03844010365,391,0.03315195483
+Tucson,share_Black,S (H_inc set),418,416,0.0937941028,391,0.1149982936
+Tucson,share_AIAN,S (H_inc set),418,416,-0.01837183037,391,0.00993875272
+Tucson,share_Asian,S (H_inc set),418,416,0.05593476897,391,0.0661368858
+Tucson,H_inc,S (H_inc set),418,418,0.2111291388,391,0.2076474988
+Tucson,H_race,S_race (H_race set),418,418,-0.1650801963,391,-0.1770583194
+Tulsa,log_income,S (H_inc set),354,350,0.1472448406,350,0.1472448406
+Tulsa,share_White,S (H_inc set),354,354,0.1851061947,350,0.1834867038
+Tulsa,share_Black,S (H_inc set),354,354,-0.1112964314,350,-0.1084845386
+Tulsa,share_AIAN,S (H_inc set),354,354,-0.01485475685,350,-0.01577668059
+Tulsa,share_Asian,S (H_inc set),354,354,0.1147993993,350,0.1059266453
+Tulsa,H_inc,S (H_inc set),354,354,0.2063668784,350,0.2043163623
+Tulsa,H_race,S_race (H_race set),354,354,-0.2213064794,350,-0.2218677102
+Virginia Beach,log_income,S (H_inc set),323,312,-0.08038696953,312,-0.08038696953
+Virginia Beach,share_White,S (H_inc set),323,322,-0.02350425357,312,-0.04069487925
+Virginia Beach,share_Black,S (H_inc set),323,322,0.0412754419,312,0.04955840035
+Virginia Beach,share_AIAN,S (H_inc set),323,322,0.00713080648,312,0.003549419787
+Virginia Beach,share_Asian,S (H_inc set),323,322,0.004117870603,312,0.004902350271
+Virginia Beach,H_inc,S (H_inc set),323,323,0.2092937997,312,0.2194393376
+Virginia Beach,H_race,S_race (H_race set),323,323,-0.01950982665,312,-0.02039527738
+Washington,log_income,S (H_inc set),568,500,0.08055793211,500,0.08055793211
+Washington,share_White,S (H_inc set),568,552,0.04415057023,500,0.0419036775
+Washington,share_Black,S (H_inc set),568,552,-0.06261308341,500,-0.06299719553
+Washington,share_AIAN,S (H_inc set),568,552,0.06096035084,500,0.03630125868
+Washington,share_Asian,S (H_inc set),568,552,0.1474424406,500,0.162061117
+Washington,H_inc,S (H_inc set),568,568,0.2293749006,500,0.2249182319
+Washington,H_race,S_race (H_race set),568,568,0.207024796,500,0.2068359768
+Wichita,log_income,S (H_inc set),332,320,0.04419643548,320,0.04419643548
+Wichita,share_White,S (H_inc set),332,332,-0.001522080662,320,-0.008909439737
+Wichita,share_Black,S (H_inc set),332,332,0.08300268923,320,0.09555871175
+Wichita,share_AIAN,S (H_inc set),332,332,0.09510911025,320,0.1141047111
+Wichita,share_Asian,S (H_inc set),332,332,0.07260805844,320,0.07618189918
+Wichita,H_inc,S (H_inc set),332,332,0.2336742802,320,0.2315258419
+Wichita,H_race,S_race (H_race set),332,332,-0.004540906604,320,-0.005264962094

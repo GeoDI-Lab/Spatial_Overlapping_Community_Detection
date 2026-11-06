@@ -1,0 +1,12 @@
+panel,city,place_id,label,name,category,lat,lon,coord_source,drawn_on_map_or_inset,containing_GISJOIN,containing_overlap_count,rank_in_city (1 + block groups with a higher count),block_groups_with_same_count,block_groups_with_count_at_least,share_with_count_at_least,block_groups_with_trips,city_max_overlap_count
+a,Chicago,CHI_ORD,O'Hare,O'Hare International Airport,airport,41.9786,-87.9047,"FAA ARP 41 58 43 N, 87 54 17 W",map,G17003109800001,5,2,8,9,0.0041417395306028535,2173,6
+a,Chicago,CHI_LOOP,Loop,The Loop (downtown),downtown,41.8819,-87.6278,grid: State St & Madison St (address-grid origin),inset,G17003108391001,5,2,8,9,0.0041417395306028535,2173,6
+a,Chicago,CHI_UIC,UIC,University of Illinois Chicago (east campus),university,41.8708,-87.6505,Wikipedia: UIC east campus (Halsted & Harrison),inset,G17003108419001,4,10,22,31,0.014265991716520939,2173,6
+a,Chicago,CHI_GRANT,Grant Park,Grant Park,park,41.8758,-87.6189,Wikipedia: Buckingham Fountain,inset,G17003103204001,5,2,8,9,0.0041417395306028535,2173,6
+b,New York,NY_CP,Central Park,Central Park,park,40.7823,-73.9654,"Wikipedia: 40 46 56 N, 73 57 55 W",inset,G36006100143001,5,3,7,9,0.001366535074400243,6586,8
+b,New York,NY_JFK,JFK,JFK International Airport,airport,40.6397,-73.7789,"FAA ARP 40 38 23 N, 73 46 44 W",map,G36008100716001,8,1,1,1,0.0001518372304889159,6586,8
+b,New York,NY_LGA,LaGuardia,LaGuardia Airport,airport,40.7772,-73.8726,"FAA ARP 40 46 38 N, 73 52 21 W",map,G36008100331001,5,3,7,9,0.001366535074400243,6586,8
+b,New York,NY_MID,Midtown,Midtown Manhattan (Times Square),downtown,40.758,-73.9855,Wikipedia: Times Square,inset,G36006100119001,3,29,123,151,0.022927421803826297,6586,8
+b,New York,NY_FMCP,Flushing Meadows–Corona Park,Flushing Meadows-Corona Park,park,40.74,-73.8408,"Wikipedia: 40 44 24 N, 73 50 27 W",map,G36008100383021,7,2,1,2,0.0003036744609778318,6586,8
+c,Los Angeles,LA_USC,USC,University of Southern California (University Park),university,34.0205,-118.2855,Wikipedia: University Park campus,inset,G06003702227001,4,5,18,22,0.008199776369735371,2683,7
+c,Los Angeles,LA_LAX,LAX,Los Angeles International Airport,airport,33.9425,-118.4081,"FAA ARP 33 56 33 N, 118 24 29 W",map,G06003709800281,3,23,71,93,0.034662691017517705,2683,7

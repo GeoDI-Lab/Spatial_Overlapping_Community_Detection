@@ -1,0 +1,31 @@
+category,label,group,n_def,n_L_gt1,n_L_lt1,median_log2OR,q25_log2OR,q75_log2OR
+Shoe Stores,Shoes,D,50,47,3,1.533757363,0.7689727597,2.233269411
+Traveler Accommodation,Hotels,D,50,48,2,1.513547209,0.8934481018,2.344533042
+Department Stores,Department stores,D,41,41,0,1.461023705,1.045400608,2.275839862
+Clothing Stores,Clothing,D,50,48,2,1.123171694,0.7158145941,1.356914919
+"Jewelry, Luggage, and Leather Goods Stores",Jewellery & luggage,D,47,39,8,0.7709830145,0.2857871449,1.470142267
+Furniture Stores,Furniture,D,50,43,7,0.7273322992,0.3253795952,1.163132764
+Specialty (except Psychiatric and Substance Abuse) Hospitals,Specialty hospitals,D,45,38,7,0.7215276511,0.3797018461,1.356987386
+Home Furnishings Stores,Home furnishings,D,49,39,10,0.5564305981,0.1125957015,1.005857003
+Building Material and Supplies Dealers,Building materials,D,50,39,11,0.5237729572,0.08583882456,0.7700404943
+"Colleges, Universities, and Professional Schools",Colleges & universities,D,48,37,11,0.5218794294,0.03646171431,1.051350133
+Automobile Dealers,Car dealers,D,48,39,9,0.5133941334,0.1629617798,1.056296459
+Depository Credit Intermediation,Banks,E,50,47,3,0.5061233841,0.3850913579,0.6971732471
+"Sporting Goods, Hobby, and Musical Instrument Stores",Sporting goods & hobby,D,50,36,14,0.3043693521,-0.06465233011,0.5414147208
+Health and Personal Care Stores,Pharmacies & health stores,E,50,43,7,0.2486694853,0.1203821316,0.3953969559
+Electronics and Appliance Stores,Electronics & appliances,D,50,33,17,0.1989565356,-0.200120045,0.6988464335
+Other Personal Services,Other personal services,E,50,29,21,0.07833988821,-0.3205386745,0.3880630022
+Offices of Dentists,Dentists,E,50,29,21,0.06683113869,-0.183682349,0.3447629637
+"Automotive Parts, Accessories, and Tire Stores",Auto parts & tyres,E,50,26,24,0.03104062786,-0.2416317213,0.3918520143
+Automotive Repair and Maintenance,Auto repair,E,50,25,25,-0.003460937492,-0.2087266022,0.3101671983
+"General Merchandise Stores, including Warehouse Clubs and Supercenters",General merch. & supercentres,D,48,20,28,-0.09113981604,-0.3382841424,0.2822670583
+Personal and Household Goods Repair and Maintenance,Household goods repair,E,45,19,26,-0.09742264764,-0.457370965,0.2377821962
+Gasoline Stations,Gas stations,E,50,19,31,-0.1229223522,-0.3467751055,0.16066213
+Bakeries and Tortilla Manufacturing,Bakeries,E,49,19,30,-0.152062186,-0.4286078721,0.3170900788
+Personal Care Services,Personal care,E,50,14,36,-0.2573998275,-0.4267847455,0.07822382428
+Grocery Stores,Grocery stores,E,50,3,47,-0.4341956401,-0.6452731688,-0.2915225521
+"Beer, Wine, and Liquor Stores",Liquor stores,E,47,10,37,-0.4499162125,-0.7315003729,-0.1197949686
+"Museums, Historical Sites, and Similar Institutions",Parks & museums (mostly parks),D,50,1,49,-0.7317217801,-1.138348192,-0.4781095097
+Child Day Care Services,Child day care,E,49,0,49,-1.056356535,-1.258579699,-0.8312102766
+Religious Organizations,Religious organizations,E,50,0,50,-1.101977295,-1.428694473,-0.9042128395
+Elementary and Secondary Schools,Schools (K-12),E,50,0,50,-1.140674404,-1.407136823,-0.8293115791

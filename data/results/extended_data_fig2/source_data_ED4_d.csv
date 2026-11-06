@@ -1,0 +1,53 @@
+network_type,network,variable,n_zone,n_rest,median_zone,median_rest,median_diff,effect,swarm_offset_mm,scale_of_medians,effect_kind
+city (one of the 50),Albuquerque,dist_cbd_rel,251,167,0.901713329808508,1.1611945288294436,-0.2594811990209356,-0.2594811990209356,1.533298,relative distance,difference zone - rest
+city (one of the 50),Atlanta,dist_cbd_rel,238,207,0.8747978966820984,1.1495541333596282,-0.2747562366775298,-0.2747562366775298,0.114176,relative distance,difference zone - rest
+city (one of the 50),Austin,dist_cbd_rel,322,352,0.9076879913055639,1.0569632302409526,-0.14927523893538874,-0.14927523893538874,0.0,relative distance,difference zone - rest
+city (one of the 50),Bakersfield,dist_cbd_rel,183,134,0.9930906602374139,1.0115824952547632,-0.0184918350173493,-0.0184918350173493,0.672231,relative distance,difference zone - rest
+city (one of the 50),Baltimore,dist_cbd_rel,209,405,0.8985191365768436,1.0656869419264439,-0.1671678053496003,-0.1671678053496003,0.791228,relative distance,difference zone - rest
+city (one of the 50),Boston,dist_cbd_rel,243,338,1.011151800370274,0.9864166583548604,0.024735142015413603,0.024735142015413603,0.0,relative distance,difference zone - rest
+city (one of the 50),Charlotte,dist_cbd_rel,316,225,0.9132296005494289,1.079943317185044,-0.16671371663561518,-0.16671371663561518,1.590946,relative distance,difference zone - rest
+city (one of the 50),Chicago,dist_cbd_rel,660,1492,0.9423357756990489,1.0330536638948562,-0.09071788819580728,-0.09071788819580728,-1.041076,relative distance,difference zone - rest
+city (one of the 50),Colorado Springs,dist_cbd_rel,240,110,0.9495537701664263,1.0798784085897335,-0.13032463842330722,-0.13032463842330722,0.0,relative distance,difference zone - rest
+city (one of the 50),Columbus,dist_cbd_rel,318,418,0.9199139558800244,1.081170294881061,-0.16125633900103664,-0.16125633900103664,-2.352145,relative distance,difference zone - rest
+city (one of the 50),Dallas,dist_cbd_rel,340,563,0.8974628904756874,1.0175430983103153,-0.12008020783462792,-0.12008020783462792,-0.640331,relative distance,difference zone - rest
+city (one of the 50),Denver,dist_cbd_rel,257,313,0.8981800886161607,1.0634983808084615,-0.16531829219230076,-0.16531829219230076,2.388275,relative distance,difference zone - rest
+city (one of the 50),Detroit,dist_cbd_rel,208,411,1.0370755276666017,0.9893392623165717,0.04773626535003006,0.04773626535003006,-0.78083,relative distance,difference zone - rest
+city (one of the 50),El Paso,dist_cbd_rel,281,218,0.984320056853557,1.044888218030627,-0.06056816117706998,-0.06056816117706998,0.0,relative distance,difference zone - rest
+city (one of the 50),Fort Worth,dist_cbd_rel,334,258,0.9178819314589022,1.0657696688317384,-0.14788773737283623,-0.14788773737283623,-0.797359,relative distance,difference zone - rest
+city (one of the 50),Fresno,dist_cbd_rel,257,110,1.0186086818326898,0.9745911664880142,0.04401751534467557,0.04401751534467557,0.0,relative distance,difference zone - rest
+city (one of the 50),Houston,dist_cbd_rel,581,1704,1.0988378376850492,0.9501618380281744,0.14867599965687472,0.14867599965687472,0.0,relative distance,difference zone - rest
+city (one of the 50),Indianapolis,dist_cbd_rel,365,344,1.0003624941525382,0.9976502931059257,0.002712201046612517,0.002712201046612517,0.830771,relative distance,difference zone - rest
+city (one of the 50),Jacksonville,dist_cbd_rel,319,233,0.9193498542056153,1.0890414497995236,-0.16969159559390823,-0.16969159559390823,0.0,relative distance,difference zone - rest
+city (one of the 50),Kansas City,dist_cbd_rel,279,228,0.9178286982594774,1.059009222466924,-0.14118052420744664,-0.14118052420744664,0.704567,relative distance,difference zone - rest
+city (one of the 50),Las Vegas,dist_cbd_rel,255,211,0.9663814471874409,1.1336432435998829,-0.167261796412442,-0.167261796412442,-0.791873,relative distance,difference zone - rest
+city (one of the 50),Long Beach,dist_cbd_rel,221,109,1.000334355836648,0.9944780707305065,0.005856285106141446,0.005856285106141446,-1.151639,relative distance,difference zone - rest
+city (one of the 50),Los Angeles,dist_cbd_rel,564,2020,1.480203774051874,0.8853610061043984,0.5948427679474757,0.5948427679474757,0.0,relative distance,difference zone - rest
+city (one of the 50),Louisville+Jefferson County metro government,dist_cbd_rel,205,130,0.9121959255773215,1.1110133626784875,-0.19881743710116595,-0.19881743710116595,-0.777239,relative distance,difference zone - rest
+city (one of the 50),Memphis,dist_cbd_rel,266,275,1.0172306653732979,0.9679795526521977,0.049251112721100165,0.049251112721100165,0.761563,relative distance,difference zone - rest
+city (one of the 50),Mesa,dist_cbd_rel,250,90,0.9840463656298368,1.0731477501861377,-0.0891013845563009,-0.0891013845563009,1.034733,relative distance,difference zone - rest
+city (one of the 50),Miami,dist_cbd_rel,215,130,0.9105383474190665,1.3192139036888055,-0.40867555626973906,-0.40867555626973906,0.0,relative distance,difference zone - rest
+city (one of the 50),Milwaukee,dist_cbd_rel,288,281,1.0295695109102128,0.9497214563458523,0.0798480545643605,0.0798480545643605,-0.768888,relative distance,difference zone - rest
+city (one of the 50),Minneapolis,dist_cbd_rel,188,207,0.7616733560853943,1.1072271737195498,-0.3455538176341555,-0.3455538176341555,0.0,relative distance,difference zone - rest
+city (one of the 50),Nashville-Davidson metropolitan government,dist_cbd_rel,276,201,0.964461278339553,1.077984165528916,-0.11352288718936299,-0.11352288718936299,0.146258,relative distance,difference zone - rest
+city (one of the 50),New York,dist_cbd_rel,952,5375,0.9997818260098132,1.0027931331571267,-0.003011307147313458,-0.003011307147313458,0.07697,relative distance,difference zone - rest
+city (one of the 50),Oakland,dist_cbd_rel,187,166,1.0106622161611178,1.0308531974171393,-0.02019098125602148,-0.02019098125602148,-0.123805,relative distance,difference zone - rest
+city (one of the 50),Oklahoma City,dist_cbd_rel,364,289,0.9130026572995451,1.1947552462761382,-0.28175258897659305,-0.28175258897659305,-0.615712,relative distance,difference zone - rest
+city (one of the 50),Omaha,dist_cbd_rel,296,167,0.9233271734480578,1.1261921142759883,-0.2028649408279305,-0.2028649408279305,0.0,relative distance,difference zone - rest
+city (one of the 50),Philadelphia,dist_cbd_rel,368,950,1.1273782573741453,0.9769908273453776,0.15038743002876775,0.15038743002876775,-0.795978,relative distance,difference zone - rest
+city (one of the 50),Phoenix,dist_cbd_rel,413,641,0.9332387920946432,1.0345414592840365,-0.10130266718939329,-0.10130266718939329,-0.412992,relative distance,difference zone - rest
+city (one of the 50),Portland,dist_cbd_rel,222,297,0.9799661626321409,0.9880265949207346,-0.008060432288593766,-0.008060432288593766,-0.687317,relative distance,difference zone - rest
+city (one of the 50),Raleigh,dist_cbd_rel,209,88,0.9134118998302411,1.1674773126128626,-0.2540654127826215,-0.2540654127826215,0.0,relative distance,difference zone - rest
+city (one of the 50),Sacramento,dist_cbd_rel,199,194,0.9231177345501508,1.089644036581058,-0.16652630203090724,-0.16652630203090724,-1.591132,relative distance,difference zone - rest
+city (one of the 50),San Antonio,dist_cbd_rel,449,540,1.1111894100096924,0.821042696481437,0.2901467135282554,0.2901467135282554,0.0,relative distance,difference zone - rest
+city (one of the 50),San Diego,dist_cbd_rel,333,627,1.0447899060658359,0.9696614713589524,0.07512843470688346,0.07512843470688346,0.0,relative distance,difference zone - rest
+city (one of the 50),San Francisco,dist_cbd_rel,218,453,0.703541414190809,1.132700798923269,-0.42915938473245996,-0.42915938473245996,-0.782511,relative distance,difference zone - rest
+city (one of the 50),San Jose,dist_cbd_rel,261,387,0.9396638811339275,1.0311766895280838,-0.09151280839415632,-0.09151280839415632,0.242737,relative distance,difference zone - rest
+city (one of the 50),Seattle,dist_cbd_rel,199,337,0.8040901528139061,1.0729882382531042,-0.26889808543919813,-0.26889808543919813,0.865707,relative distance,difference zone - rest
+city (one of the 50),Tampa,dist_cbd_rel,233,119,0.9438133570391025,1.2099366752077323,-0.2661233181686298,-0.2661233181686298,-0.93931,relative distance,difference zone - rest
+city (one of the 50),Tucson,dist_cbd_rel,267,152,1.040935546711316,0.9180887083393398,0.12284683837197619,0.12284683837197619,0.0,relative distance,difference zone - rest
+city (one of the 50),Tulsa,dist_cbd_rel,250,104,0.965173480536491,0.9963759280993905,-0.03120244756289947,-0.03120244756289947,-0.751286,relative distance,difference zone - rest
+city (one of the 50),Virginia Beach,dist_cbd_rel,203,120,0.9831751267270088,1.020250004249196,-0.03707487752218719,-0.03707487752218719,0.0,relative distance,difference zone - rest
+city (one of the 50),Washington,dist_cbd_rel,215,353,0.6954582916753449,1.1281715491037823,-0.43271325742843736,-0.43271325742843736,0.0,relative distance,difference zone - rest
+city (one of the 50),Wichita,dist_cbd_rel,246,88,0.9339578077384111,1.22662184535624,-0.292664037617829,-0.292664037617829,0.0,relative distance,difference zone - rest
+Twin Cities metropolitan area (not one of the 50),TCMA_work,dist_cbd_rel,682,1842,1.1124074263203814,0.9614028494424114,0.15100457687796998,0.15100457687796998,,relative distance,difference zone - rest
+Twin Cities metropolitan area (not one of the 50),TCMA_weekend,dist_cbd_rel,398,1829,1.3278318022193174,1.0384141020531954,0.289417700166122,0.289417700166122,,relative distance,difference zone - rest

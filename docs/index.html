@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overlapping Mesoscale Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Interactive companion to 'Mobility flows reveal an overlapping mesoscale in 50 US cities': weighted overlapping communities of 50 US cities, how they reconstruct and generate flows, and which places they share.">
+<meta property="og:title" content="Overlapping Mesoscale Atlas">
+<meta property="og:description" content="Weighted, overlapping mobility communities of 50 US cities: how they reconstruct and generate flows, and which places they share.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: a night map. Each city is drawn as stacked community layers on deep ink; one warm accent marks F. */
+:root {
+  --ink: #0c1118; --ink-2: #121a24; --ink-3: #1a2431; --rule: #263244; --rule-2: #354459;
+  --paper: #ebe5d6; --muted: #a1abbb; --faint: #6b788b;
+  --F: #f3b743; --own: #8fb4dc; --overlap: #63c2ae; --partition: #c792d6; --embedding: #df9d80;
+  --reference: #7f8a9b; --strongest: #e9e3cf; --good: #63c2ae;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body { background: var(--ink); color: var(--paper); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  margin: 0; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+a { color: var(--F); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--F); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { font-family: var(--font-display); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 15px; }
+.brand b { color: var(--F); font-weight: 700; }
+nav.links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+nav.links a { color: var(--muted); text-decoration: none; }
+nav.links a:hover { color: var(--paper); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1.0; letter-spacing: .01em; text-transform: uppercase; }
+h1 em { font-style: normal; color: var(--F); }
+h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.05; text-transform: uppercase; letter-spacing: .02em; }
+h3 { font-size: 1.15rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.eyebrow { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .14em; font-size: 13px; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+.lede { font-size: 1.12rem; color: var(--paper); }
+.muted { color: var(--muted); }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+section { border-top: 1px solid var(--rule); }
+section > .wrap { padding-block: 56px; display: grid; gap: 28px; }
+.hero > .wrap { padding-block: 36px 48px; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: 36px; }
+.hero-text { display: grid; gap: 22px; align-content: start; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 22px; margin-top: 4px; }
+.fact { border-left: 2px solid var(--rule-2); padding-left: 12px; }
+.fact .v { font-family: var(--font-display); font-size: 2rem; font-weight: 600; line-height: 1.05; }
+.fact .k { font-size: 13px; color: var(--muted); line-height: 1.35; }
+.controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+select, button { font: 500 14px var(--font-body); color: var(--paper); background: var(--ink-3); border: 1px solid var(--rule-2);
+  border-radius: 6px; padding: 7px 10px; cursor: pointer; }
+select { max-width: 100%; }
+button.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.seg { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: transparent; padding: 7px 12px; }
+.seg button.on { background: var(--paper); color: var(--ink); }
+.stage { position: relative; background: radial-gradient(120% 90% at 50% 40%, var(--ink-3), var(--ink) 70%); border: 1px solid var(--rule);
+  border-radius: 10px; overflow: hidden; min-width: 0; }
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: manipulation; }
+#stack-stage { aspect-ratio: 5 / 6; }
+#flow-stage { aspect-ratio: 1 / 1; }
+.stage .legend { position: absolute; left: 12px; bottom: 10px; right: 12px; display: flex; flex-wrap: wrap; gap: 4px 10px;
+  font-size: 12px; color: var(--muted); pointer-events: none; }
+.stage .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.stage .note { position: absolute; left: 12px; top: 10px; font-size: 12px; color: var(--muted); pointer-events: none; max-width: 60%; }
+.tip { position: fixed; z-index: 20; pointer-events: none; background: var(--ink-2); border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 8px 10px; font-size: 12.5px; line-height: 1.4; color: var(--paper); box-shadow: 0 8px 24px rgb(0 0 0 / .45); max-width: 260px; }
+.tip .t { font-weight: 600; margin-bottom: 4px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.grid-73 { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 28px; align-items: start; }
+.panel { min-width: 0; display: grid; gap: 12px; align-content: start; }
+.panel .cap { font-size: 13.5px; color: var(--muted); line-height: 1.5; max-width: none; }
+.head { display: grid; gap: 12px; }
+.formula { font-family: var(--font-mono); font-size: 15px; color: var(--paper); background: var(--ink-2); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 12px 14px; overflow-x: auto; white-space: nowrap; }
+svg text { fill: var(--muted); font-family: var(--font-body); font-size: 12px; }
+svg .lab { fill: var(--paper); }
+svg .axis line, svg .axis path { stroke: var(--rule-2); }
+svg .axis text { fill: var(--faint); font-family: var(--font-mono); font-size: 11px; }
+svg .grid line { stroke: var(--rule); }
+.chart { width: 100%; overflow-x: auto; }
+#nation-chart { overflow: hidden; }
+.chart svg { display: block; max-width: 100%; height: auto; }
+.city-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.city-title span { color: var(--muted); font-size: 1rem; letter-spacing: .1em; margin-left: 8px; }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.kv div { background: var(--ink-2); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.kv .v { font-family: var(--font-mono); font-size: 1.15rem; color: var(--paper); }
+.kv .k { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.memb { display: grid; gap: 3px; }
+.memb .row { display: grid; grid-template-columns: 34px minmax(0, 1fr) 46px; gap: 8px; align-items: center; font-size: 12.5px; }
+.memb .bar { height: 10px; border-radius: 2px; background: var(--ink-3); position: relative; overflow: hidden; }
+.memb .bar b { position: absolute; inset: 0 auto 0 0; display: block; border-radius: 2px; }
+.memb .half { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--paper); opacity: .55; }
+footer { border-top: 1px solid var(--rule); }
+footer .wrap { padding-block: 36px 56px; display: grid; gap: 14px; font-size: 14px; color: var(--muted); }
+.cards3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { background: var(--ink-2); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card h3 { color: var(--paper); }
+.loading { color: var(--muted); font-size: 14px; }
+@media (max-width: 900px) {
+  .hero > .wrap, .grid2, .grid-73, .cards3 { grid-template-columns: minmax(0, 1fr); }
+  #stack-stage { aspect-ratio: 1 / 1; }
+}
+@media (max-width: 760px) { nav.links { display: none; } .stage .note { max-width: 80%; font-size: 11.5px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">Overlapping <b>mesoscale</b> atlas</div>
+  <nav class="links" aria-label="Sections">
+    <a href="#atlas">Atlas</a><a href="#reconstruct">Reconstruction</a><a href="#generate">Generation</a>
+    <a href="#cities">50 cities</a><a href="#places">Shared places</a><a href="#data">Data &amp; code</a>
+  </nav>
+</div></header>
+
+<section class="hero" id="atlas"><div class="wrap">
+  <div class="hero-text">
+    <div class="eyebrow">Companion to the manuscript · under review</div>
+    <h1>Mobility flows reveal an <em>overlapping mesoscale</em> in 50 US cities</h1>
+    <p class="lede">Cities are usually divided into disjoint regions, yet many places serve several of them. From the trips between census block groups, a graph neural network infers how strongly each place belongs to each of ten communities. These weighted, overlapping memberships reproduce a city's flows and generate the flows of places they were not fitted to.</p>
+    <div class="facts">
+      <div class="fact"><div class="v num">50</div><div class="k">large US cities, plus the Twin Cities metropolitan area as a case study</div></div>
+      <div class="fact"><div class="v num">39,228</div><div class="k">census block groups</div></div>
+      <div class="fact"><div class="v num">53.9 M</div><div class="k">trips between block groups on five weekdays, 19–23 July 2021</div></div>
+      <div class="fact"><div class="v num">K = 10</div><div class="k">weighted communities per city; a place is shared when its membership exceeds 0.5 in two or more</div></div>
+    </div>
+    <div class="controls">
+      <label class="eyebrow" for="city-select">City</label>
+      <select id="city-select" aria-label="Choose a city"></select>
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" id="mode-stack" class="on">Stacked layers</button>
+        <button type="button" id="mode-flat">Flat map</button>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="stage" id="stack-stage">
+      <canvas id="stack-canvas" aria-label="The communities of the chosen city drawn as stacked layers"></canvas>
+      <div class="note" id="stack-note">Each layer is one community: the block groups whose membership exceeds 0.5. A place drawn in several layers is shared by these communities; thin lines join its copies.</div>
+      <div class="legend" id="stack-legend"></div>
+    </div>
+    <p class="cap" id="stack-cap">Loading the city…</p>
+  </div>
+</div></section>
+
+<section id="generate-map"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Two representations of one system</div>
+    <h2>Memberships generate flows</h2>
+    <p>The model approximates the logarithm of the trips between two block groups by the inner product of their memberships. Two places that belong strongly to the same communities have many trips between them; a place shared by two communities has many trips with both. Choose any block group on the map to see the flows its memberships imply.</p>
+    <div class="formula">log A<sub>uv</sub> ≈ F<sub>u</sub> · F<sub>v</sub> = Σ<sub>k</sub> F<sub>uk</sub> F<sub>vk</sub></div>
+  </div>
+  <div class="grid-73">
+    <div class="stage" id="flow-stage">
+      <canvas id="flow-canvas" aria-label="Map of the chosen city coloured by the flows implied by the selected block group"></canvas>
+      <div class="note" id="flow-note">Click a block group.</div>
+      <div class="legend" id="flow-legend"></div>
+    </div>
+    <div class="panel">
+      <div class="city-title" id="sel-title">—</div>
+      <div class="kv" id="sel-kv"></div>
+      <h3>Memberships of the selected block group</h3>
+      <div class="memb" id="sel-memb"></div>
+      <p class="cap">Bars show F<sub>uk</sub> for the ten communities; the line marks 0.5, the threshold of the overlap count. On the map, brighter block groups have a larger F<sub>u</sub>·F<sub>v</sub> with the selected one, that is, more expected trips.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="reconstruct"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Flow reconstruction on observed pairs · Fig. 2</div>
+    <h2>Weights are needed to reproduce the flows</h2>
+    <p>Every representation is converted into a flow model whose weights are fitted under the same error, L1, the mean absolute difference between predicted and observed log flows. The weighted memberships F have a lower L1 than their own binary and partitioned versions, nine existing community-detection methods and two node embeddings, in every one of the 50 cities.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <div class="city-title" id="l1-title">—</div>
+      <div class="chart" id="l1-chart"></div>
+      <p class="cap">L1 of F and of each comparator in the chosen city (lower is better). Colours mark families: F's own discretizations, overlapping methods, partitions, embeddings, references without communities, and the strongest comparator of each city.</p>
+    </div>
+    <div class="panel">
+      <h3>Reduction in L1 by F, all 50 cities</h3>
+      <div class="chart" id="red-chart"></div>
+      <p class="cap">Each dot is a city: 100 × (L1 of comparator − L1 of F) / L1 of comparator. Numbers give the median over cities; every value is positive (two-sided Wilcoxon signed-rank test, P = 1.8 × 10<sup>−15</sup> for each comparison). The chosen city is ringed.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="generate"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Flow generation for held-out origins · Fig. 3</div>
+    <h2>Memberships as place features</h2>
+    <p>Origins were split at random into training, validation and test sets five times. For each split, F was re-estimated from the flows leaving the training origins, and Deep Gravity generated the outflows of the test origins. With F as place features, the common part of commuters (CPC) and the Spearman correlation were higher than with population, points of interest or both, and than the radiation and four gravity models, in every city.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <div class="city-title" id="cpc-title">—</div>
+      <div class="chart" id="cpc-chart"></div>
+      <p class="cap">CPC of the generated outflows of held-out origins in the chosen city, mean over five splits (higher is better). SC, singly constrained.</p>
+    </div>
+    <div class="panel">
+      <h3>CPC gain of F over the strongest baseline</h3>
+      <div class="chart" id="gain-chart"></div>
+      <p class="cap">Each dot is a city: CPC with F minus CPC with population and points of interest, the baseline with the highest mean CPC. The chosen city is ringed.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="cities"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Fifty cities</div>
+    <h2>Where communities overlap</h2>
+    <p>Choose what to map. Circle area follows the number of block groups; click a city to load it above. Smaller cities had more overlap: a city's mean overlap count fell with its population (Spearman ρ = −0.73).</p>
+    <div class="seg" role="group" aria-label="Metric" id="metric-seg"></div>
+  </div>
+  <div class="grid-73">
+    <div class="chart" id="nation-chart"></div>
+    <div class="panel">
+      <h3>Mean overlap count and population</h3>
+      <div class="chart" id="size-chart"></div>
+      <p class="cap">Mean overlap count, the average number of communities in which a block group's membership exceeds 0.5, against the city's population (log scale).</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="places"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">What shared places offer · Fig. 5</div>
+    <h2>Communities overlap where higher-order functions concentrate</h2>
+    <p>Before the analysis, 30 point-of-interest categories were assigned by name to a higher-order group (such as comparison retail, hotels and specialty hospitals) and an everyday group (such as schools, groceries and child day care), following the central-place order of goods. Places shared by several communities hold higher-order categories more often, and their inbound trips start in a more income-mixed set of neighbourhoods.</p>
+  </div>
+  <div class="grid-73">
+    <div class="panel">
+      <div class="chart" id="cat-chart"></div>
+      <p class="cap">Odds that a point of interest of each category lies in the overlap zone rather than the rest of its city, relative to all other points of interest (log<sub>2</sub> odds ratio): median over cities (dot) and interquartile range (line). Rings show the chosen city.</p>
+    </div>
+    <div class="panel">
+      <h3>Central-place contrast G</h3>
+      <div class="chart" id="g-chart"></div>
+      <p class="cap">G, the mean log<sub>2</sub> odds ratio of the higher-order categories minus that of the everyday ones; positive in all 50 cities.</p>
+      <h3>Income mix of trip origins</h3>
+      <div class="chart" id="h-chart"></div>
+      <p class="cap">Difference in H<sub>inc</sub>, the income-quintile entropy of the block groups where a block group's inbound trips start, between the overlap zone and the rest; higher in the overlap zone in 49 of 50 cities.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="data"><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Data and code</div>
+    <h2>Everything behind the figures</h2>
+  </div>
+  <div class="cards3">
+    <div class="card"><h3>Code</h3><p>Network construction, inference of the memberships, flow reconstruction, flow generation and every analysis and figure of the paper.</p><a href="https://github.com/GeoDI-Lab/Spatial_Overlapping_Community_Detection">GitHub repository</a></div>
+    <div class="card"><h3>Memberships</h3><p>The ten memberships F of every census block group in the 50 cities and the Twin Cities metropolitan area, as used in the paper.</p><a href="https://github.com/GeoDI-Lab/Spatial_Overlapping_Community_Detection/tree/main/data/memberships">data/memberships</a></div>
+    <div class="card"><h3>Results</h3><p>The per-city results behind every figure and table, including the values drawn on this page.</p><a href="https://github.com/GeoDI-Lab/Spatial_Overlapping_Community_Detection/tree/main/data/results">data/results</a></div>
+  </div>
+  <p class="muted">Mobility data: anonymized device records (PlaceIQ, now Precisely), aggregated to trips between census block groups. Points of interest: SafeGraph. Residents: American Community Survey 2016–2020 via NHGIS. Block-group boundaries: US Census Bureau TIGER/Line. State outlines: Natural Earth.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div>Peng Luo, Di Zhu, Meicheng Xiong, Sheng Wang, Fábio Duarte, Qi Ryan Wang, Paolo Santi, Carlo Ratti</div>
+  <div>MIT Senseable City Lab · University of Minnesota, Department of Geography, Environment and Society · Northeastern University, Department of Civil and Environmental Engineering</div>
+</div></footer>
+<div class="tip" id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+"use strict";
+const COMM = ["#77AADD", "#EE8866", "#EEDD88", "#FFAABB", "#99DDFF", "#44BB99", "#BBCC33", "#AA88DD", "#DD7788", "#C9B79C"];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const FAM = () => ({ F: css("--F"), own: css("--own"), overlap: css("--overlap"), partition: css("--partition"),
+  embedding: css("--embedding"), reference: css("--reference"), strongest: css("--strongest") });
+const FAM_LABEL = { F: "F (this study)", own: "Own discretizations", overlap: "Overlapping methods", partition: "Partitions",
+  embedding: "Node embeddings", reference: "References", strongest: "Strongest per city" };
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const S = { doc: null, by: new Map(), cur: null, cache: new Map(), mode: "stack", sel: null, metric: "overlap_mean", t: 1 };
+const tip = document.getElementById("tip");
+const f3 = d3.format(".3f"), f2 = d3.format(".2f"), f1 = d3.format(".1f"), fc = d3.format(","), fs = d3.format("+.3f");
+
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > window.innerWidth - 8) x = ev.clientX - w - 14;
+  if (y + h > window.innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+function hideTip() { tip.hidden = true; }
+async function getJSON(u) { const r = await fetch(u); if (!r.ok) throw new Error(u + ": " + r.status); return r.json(); }
+
+/* ---------------------------------------------------------------- city data */
+function decodeCity(raw) {
+  const K = raw.K, n = raw.ids.length;
+  const F = raw.F.map(r => r.map(v => v / 1000));
+  const count = F.map(r => r.reduce((a, v) => a + (v > 0.5), 0));
+  const main = F.map(r => d3.maxIndex(r));
+  const paths = [], bbox = [];
+  raw.rings.forEach(rs => {
+    const p = new Path2D(); let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    rs.forEach(r => {
+      let x = r[0], y = r[1]; p.moveTo(x, y);
+      for (let i = 2; i < r.length; i += 2) { x += r[i]; y += r[i + 1]; p.lineTo(x, y);
+        if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (r[0] < x0) x0 = r[0]; if (r[1] < y0) y0 = r[1];
+      p.closePath();
+    });
+    paths.push(p); bbox.push([x0, y0, x1, y1]);
+  });
+  const fmax = d3.range(K).map(k => d3.max(F, r => r[k]) || 1);
+  return { ...raw, n, K, F, count, main, paths, bbox, fmax, isoSet: new Set(raw.iso || []) };
+}
+async function loadCity(slug) {
+  if (!S.cache.has(slug)) S.cache.set(slug, getJSON(`data/city/${slug}.json`).then(decodeCity));
+  return S.cache.get(slug);
+}
+const hit = document.createElement("canvas").getContext("2d");
+function findCBG(cd, fx, fy, filter) {
+  for (let i = 0; i < cd.n; i++) {
+    const b = cd.bbox[i];
+    if (fx < b[0] || fx > b[2] || fy < b[1] || fy > b[3]) continue;
+    if (filter && !filter(i)) continue;
+    if (hit.isPointInPath(cd.paths[i], fx, fy)) return i;
+  }
+  return -1;
+}
+
+/* ---------------------------------------------------------------- stacked layers */
+const stackCanvas = document.getElementById("stack-canvas");
+function layerCanvases(cd) {
+  if (cd.layers) return cd.layers;
+  const res = Math.min(1, 1600 / Math.max(cd.w, cd.h));
+  const W = Math.ceil(cd.w * res), H = Math.ceil(cd.h * res);
+  const mk = () => { const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+    x.setTransform(res, 0, 0, res, 0, 0); x.lineJoin = "round"; return [c, x]; };
+  const [base, bx] = mk();
+  bx.fillStyle = css("--ink-3"); bx.strokeStyle = css("--rule-2"); bx.lineWidth = 0.8 / res;
+  cd.paths.forEach(p => { bx.fill(p); bx.stroke(p); });
+  const layers = d3.range(cd.K).map(k => {
+    const [c, x] = mk(); x.lineWidth = 0.6 / res; x.strokeStyle = "rgba(12,17,24,.55)";
+    x.fillStyle = "rgba(150,168,196,0.10)";                // the plate: the whole city, faint
+    cd.paths.forEach(p => x.fill(p));
+    for (let i = 0; i < cd.n; i++) {
+      const v = cd.F[i][k]; if (v <= 0.5) continue;
+      x.globalAlpha = 0.5 + 0.5 * Math.min(1, (v - 0.5) / Math.max(0.25, cd.fmax[k] - 0.5));
+      x.fillStyle = COMM[k % COMM.length]; x.fill(cd.paths[i]); x.globalAlpha = 1; x.stroke(cd.paths[i]);
+    }
+    return c;
+  });
+  cd.layers = { base, layers };
+  return cd.layers;
+}
+const TILT = 0.24;                                  // vertical squash of the tilted plates
+function isoParams(cd, W, H, t) {
+  const gap = t * H * 0.05;                        // layers stacked like a deck of transparent sheets
+  const ix = (cd.w + cd.h) * 0.7071, iy = (cd.w + cd.h) * TILT;
+  const s = Math.min((W * 0.86) / ix, (H * 0.86 - H * 0.05 * cd.K) / iy);
+  const e = W / 2 - s * 0.7071 * (cd.w - cd.h) / 2;
+  const f0 = (H - (s * iy + gap * cd.K)) / 2 + gap * cd.K + H * 0.02;
+  return { s, e, f0, gap };
+}
+const geoid = g => g.length === 15 ? g.slice(1, 3) + g.slice(4, 7) + g.slice(8) : g.replace(/^G/, "");
+function drawStack(cd) {
+  const dpr = window.devicePixelRatio || 1, W = stackCanvas.clientWidth, H = stackCanvas.clientHeight;
+  if (stackCanvas.width !== Math.round(W * dpr)) { stackCanvas.width = Math.round(W * dpr); stackCanvas.height = Math.round(H * dpr); }
+  const ctx = stackCanvas.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, stackCanvas.width, stackCanvas.height);
+  const { base, layers } = layerCanvases(cd);
+  const t = S.mode === "stack" ? S.t : 0;
+  const { s, e, f0, gap } = isoParams(cd, W, H, t);
+  const a = s * 0.7071, b = s * TILT;
+  const at = off => ctx.setTransform(dpr * a, dpr * b, -dpr * a, dpr * b, dpr * e, dpr * (f0 - off));
+  at(0); ctx.globalAlpha = 1; ctx.drawImage(base, 0, 0, cd.w, cd.h);
+  const order = d3.range(cd.K);
+  order.forEach(k => { at(gap * (k + 1)); ctx.globalAlpha = t > 0.02 ? 0.92 : 0.55; ctx.drawImage(layers[k], 0, 0, cd.w, cd.h); });
+  ctx.globalAlpha = 1;
+  if (t > 0.3) {                                      // community labels at the right corner of each plate
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.font = "600 12px " + css("--font-display"); ctx.textBaseline = "middle"; ctx.globalAlpha = Math.min(1, (t - 0.3) / 0.5);
+    order.forEach(k => { ctx.fillStyle = COMM[k % COMM.length]; ctx.fillText("C" + (k + 1), a * cd.w + e + 8, b * cd.w + f0 - gap * (k + 1)); });
+    ctx.globalAlpha = 1;
+  }
+  if (t > 0.05) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.strokeStyle = "rgba(235,229,214," + (0.16 * t) + ")"; ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    for (let i = 0; i < cd.n; i++) {
+      if (cd.count[i] < 2) continue;
+      const ks = []; cd.F[i].forEach((v, k) => { if (v > 0.5) ks.push(k); });
+      const [cx, cy] = [cd.cx[i], cd.cy[i]];
+      const sx = a * cx - a * cy + e, sy = b * cx + b * cy + f0;
+      ctx.moveTo(sx, sy - gap * (d3.min(ks) + 1)); ctx.lineTo(sx, sy - gap * (d3.max(ks) + 1));
+    }
+    ctx.stroke();
+  }
+  if (S.hoverStack != null && S.hoverStack >= 0) {
+    const i = S.hoverStack;
+    cd.F[i].forEach((v, k) => { if (v > 0.5 || t < 0.02) { at(t < 0.02 ? 0 : gap * (k + 1)); ctx.lineWidth = 2.2 / (dpr * s);
+      ctx.strokeStyle = css("--paper"); ctx.stroke(cd.paths[i]); } });
+  }
+}
+function animateStack(to) {
+  const cd = S.curData; if (!cd) return;
+  if (REDUCED) { S.t = to; drawStack(cd); return; }
+  const from = S.t, t0 = performance.now(), dur = 1100;
+  cancelAnimationFrame(S.raf);
+  const step = now => { const u = Math.min(1, (now - t0) / dur); S.t = from + (to - from) * d3.easeCubicInOut(u); drawStack(cd);
+    if (u < 1) S.raf = requestAnimationFrame(step); };
+  S.raf = requestAnimationFrame(step);
+}
+function stackHover(ev) {
+  const cd = S.curData; if (!cd) return;
+  const r = stackCanvas.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
+  const t = S.mode === "stack" ? S.t : 0;
+  const { s, e, f0, gap } = isoParams(cd, r.width, r.height, t);
+  const a = s * 0.7071, b = s * TILT;
+  const inv = off => { const X = px - e, Y = py - (f0 - off); return [(X / a + Y / b) / 2, (Y / b - X / a) / 2]; };
+  let found = -1;
+  if (t < 0.02) { const [fx, fy] = inv(0); found = findCBG(cd, fx, fy); }
+  else for (let k = cd.K - 1; k >= 0 && found < 0; k--) { const [fx, fy] = inv(gap * (k + 1)); found = findCBG(cd, fx, fy, i => cd.F[i][k] > 0.5); }
+  if (found !== S.hoverStack) { S.hoverStack = found; drawStack(cd); }
+  if (found >= 0) showTip(ev, cbgTip(cd, found)); else hideTip();
+}
+function cbgTip(cd, i) {
+  const ks = cd.F[i].map((v, k) => [v, k]).filter(d => d[0] > 0.5).sort((x, y) => y[0] - x[0]);
+  const chips = ks.map(([v, k]) => `<span style="color:${COMM[k]}">■</span> C${k + 1} ${f2(v)}`).join("&nbsp; ");
+  if (cd.isoSet.has(i)) return `<div class="t">Block group ${geoid(cd.ids[i])}</div>No trips to other block groups of the city, so no memberships`;
+  return `<div class="t">Block group ${geoid(cd.ids[i])}</div>Overlap count <b>${cd.count[i]}</b>${ks.length ? "<br>" + chips : ""}`;
+}
+function stackLegend(cd) {
+  const sizes = d3.range(cd.K).map(k => d3.sum(cd.F, r => r[k] > 0.5));
+  document.getElementById("stack-legend").innerHTML = d3.range(cd.K).map(k =>
+    `<span><i style="background:${COMM[k]}"></i>C${k + 1} <span class="num">${sizes[k]}</span></span>`).join("");
+  const isMember = i => !cd.isoSet.has(i) && d3.sum(cd.F[i]) > 0;          // block groups with nonzero membership
+  const shared = d3.sum(d3.range(cd.n), i => isMember(i) && cd.count[i] >= 2), member = d3.sum(d3.range(cd.n), i => isMember(i));
+  document.getElementById("stack-cap").innerHTML = `<b>${cd.name}</b>: ${fc(cd.n)} block groups. ${fc(shared)} of the ${fc(member)} block groups with membership (${f1(100 * shared / member)}%) have memberships above 0.5 in two or more communities, the overlap zone; the largest overlap count is ${d3.max(cd.count)}. Numbers in the legend count each community's block groups. Hover over a place to read its memberships.`;
+}
+
+/* ---------------------------------------------------------------- flow map */
+const flowCanvas = document.getElementById("flow-canvas");
+function flowFrame(cd) {
+  const W = flowCanvas.clientWidth, H = flowCanvas.clientHeight, pad = 14;
+  const s = Math.min((W - 2 * pad) / cd.w, (H - 2 * pad) / cd.h);
+  return { s, ox: (W - s * cd.w) / 2, oy: (H - s * cd.h) / 2, W, H };
+}
+function drawFlow(cd) {
+  const dpr = window.devicePixelRatio || 1, { s, ox, oy, W, H } = flowFrame(cd);
+  if (flowCanvas.width !== Math.round(W * dpr)) { flowCanvas.width = Math.round(W * dpr); flowCanvas.height = Math.round(H * dpr); }
+  const ctx = flowCanvas.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, flowCanvas.width, flowCanvas.height);
+  ctx.setTransform(dpr * s, 0, 0, dpr * s, dpr * ox, dpr * oy); ctx.lineJoin = "round";
+  const u = S.sel;
+  const val = cd.F.map(r => r.reduce((a, v, k) => a + v * cd.F[u][k], 0));
+  const hi = d3.quantile(val.slice().sort(d3.ascending), 0.99) || 1;
+  const col = d3.scaleSequential(d3.interpolateInferno).domain([0, hi]).clamp(true);
+  ctx.lineWidth = 0.5 / s; ctx.strokeStyle = "rgba(12,17,24,.6)";
+  for (let i = 0; i < cd.n; i++) { ctx.fillStyle = col(val[i]); ctx.fill(cd.paths[i]); ctx.stroke(cd.paths[i]); }
+  ctx.lineWidth = 2.5 / s; ctx.strokeStyle = css("--paper"); ctx.stroke(cd.paths[u]);
+  if (S.hoverFlow != null && S.hoverFlow >= 0 && S.hoverFlow !== u) { ctx.lineWidth = 1.5 / s; ctx.strokeStyle = css("--F"); ctx.stroke(cd.paths[S.hoverFlow]); }
+  S.flowVal = val; S.flowHi = hi;
+  const leg = document.getElementById("flow-legend");
+  const stops = d3.range(0, 1.01, 0.1).map(t => col(t * hi)).join(",");
+  leg.innerHTML = `<span>F<sub>u</sub>·F<sub>v</sub> with the selected block group</span><span style="display:inline-block;width:120px;height:9px;border-radius:2px;background:linear-gradient(90deg,${stops});vertical-align:-1px"></span><span class="num">0 – ${f2(hi)}</span>`;
+}
+function selectCBG(cd, i) {
+  S.sel = i; drawFlow(cd);
+  const ks = cd.F[i];
+  document.getElementById("sel-title").innerHTML = `Block group <span class="num">${geoid(cd.ids[i])}</span>`;
+  const others = S.flowVal.filter((_, j) => j !== i);
+  const share = d3.mean(others, v => v > 1);
+  document.getElementById("sel-kv").innerHTML =
+    `<div><div class="v">${cd.count[i]}</div><div class="k">overlap count (communities with F &gt; 0.5)</div></div>` +
+    `<div><div class="v">${f2(d3.sum(ks))}</div><div class="k">sum of memberships</div></div>` +
+    `<div><div class="v">${f1(100 * share)}%</div><div class="k">of the city's block groups with F<sub>u</sub>·F<sub>v</sub> &gt; 1</div></div>`;
+  const mx = Math.max(1.6, d3.max(ks));
+  document.getElementById("sel-memb").innerHTML = ks.map((v, k) =>
+    `<div class="row"><span class="num" style="color:${COMM[k]}">C${k + 1}</span><span class="bar"><b style="width:${100 * v / mx}%;background:${COMM[k]}"></b><span class="half" style="left:${100 * 0.5 / mx}%"></span></span><span class="num">${f2(v)}</span></div>`).join("");
+  document.getElementById("flow-note").textContent = "Click any block group to select it.";
+}
+function flowEvent(ev, click) {
+  const cd = S.curData; if (!cd) return;
+  const r = flowCanvas.getBoundingClientRect(), { s, ox, oy } = flowFrame(cd);
+  const fx = (ev.clientX - r.left - ox) / s, fy = (ev.clientY - r.top - oy) / s;
+  const i = findCBG(cd, fx, fy);
+  if (click) { if (i >= 0) selectCBG(cd, i); return; }
+  if (i !== S.hoverFlow) { S.hoverFlow = i; drawFlow(cd); }
+  if (i >= 0) showTip(ev, cbgTip(cd, i) + `<br>F<sub>u</sub>·F<sub>v</sub> with selected: <b class="num">${f2(S.flowVal[i])}</b>`); else hideTip();
+}
+
+/* ---------------------------------------------------------------- city charts */
+function l1Chart(c) {
+  const fam = FAM(), rows = S.doc.meta.methods, el = document.getElementById("l1-chart");
+  document.getElementById("l1-title").innerHTML = `${c.name}<span>${c.state}</span>`;
+  const W = Math.max(320, el.clientWidth), rh = 19, m = { l: 200, r: 52, t: 8, b: 30 }, H = m.t + m.b + rh * rows.length;
+  const vals = rows.map(r => c.L1[r.key]);
+  const x = d3.scaleLinear().domain([Math.min(0.4, d3.min(vals) - 0.05), d3.max(vals) + 0.03]).range([m.l, W - m.r]);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "grid").selectAll("line").data(x.ticks(5)).join("line")
+    .attr("x1", d => x(d)).attr("x2", d => x(d)).attr("y1", m.t).attr("y2", H - m.b);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(5).tickSizeOuter(0));
+  svg.append("text").attr("x", W - m.r).attr("y", H - 2).attr("text-anchor", "end").text("L1 (lower is better)");
+  const g = svg.append("g").selectAll("g").data(rows).join("g").attr("transform", (d, i) => `translate(0,${m.t + i * rh + rh / 2})`);
+  g.append("text").attr("x", m.l - 10).attr("dy", "0.35em").attr("text-anchor", "end")
+    .attr("class", d => d.key === "F" ? "lab" : null).style("font-weight", d => d.key === "F" ? 600 : null).text(d => d.label);
+  g.append("line").attr("x1", x.range()[0]).attr("x2", d => x(c.L1[d.key])).attr("stroke", d => fam[d.family]).attr("stroke-opacity", .35);
+  g.append("circle").attr("cx", d => x(c.L1[d.key])).attr("r", d => d.key === "F" ? 6 : 4.5).attr("fill", d => fam[d.family]);
+  g.append("text").attr("x", d => x(c.L1[d.key]) + 9).attr("dy", "0.35em").attr("class", "num").style("font-family", "var(--font-mono)")
+    .style("font-size", "11px").text(d => f3(c.L1[d.key]));
+  el.replaceChildren(svg.node());
+}
+function cpcChart(c) {
+  const el = document.getElementById("cpc-chart"), F = css("--F");
+  document.getElementById("cpc-title").innerHTML = `${c.name}<span>${c.state}</span>`;
+  const rows = S.doc.meta.generation_models.slice().sort((a, b) => c.cpc[b.key] - c.cpc[a.key]);
+  const W = Math.max(320, el.clientWidth), rh = 26, m = { l: 150, r: 56, t: 6, b: 30 }, H = m.t + m.b + rh * rows.length;
+  const x = d3.scaleLinear().domain([0, Math.max(0.8, d3.max(rows, r => c.cpc[r.key]))]).range([m.l, W - m.r]);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(4).tickSizeOuter(0));
+  svg.append("text").attr("x", W - m.r).attr("y", H - 2).attr("text-anchor", "end").text("CPC (higher is better)");
+  const g = svg.append("g").selectAll("g").data(rows).join("g").attr("transform", (d, i) => `translate(0,${m.t + i * rh})`);
+  const label = { F: "F (this study)", poppoi: "Population + POI", poi: "POI", pop: "Population", radiation: "Radiation",
+    grav_pl: "Gravity, power law", grav_exp: "Gravity, exponential", scgrav_pl: "SC gravity, power law", scgrav_exp: "SC gravity, exponential" };
+  g.append("text").attr("x", m.l - 10).attr("y", rh / 2).attr("dy", "0.35em").attr("text-anchor", "end")
+    .attr("class", d => d.key === "F" ? "lab" : null).style("font-weight", d => d.key === "F" ? 600 : null).text(d => label[d.key]);
+  g.append("rect").attr("x", m.l).attr("y", 5).attr("height", rh - 10).attr("rx", 2).attr("width", d => x(c.cpc[d.key]) - m.l)
+    .attr("fill", d => d.key === "F" ? F : (["poppoi", "poi", "pop"].includes(d.key) ? css("--partition") : css("--reference")))
+    .attr("fill-opacity", d => d.key === "F" ? 1 : 0.75);
+  g.append("text").attr("x", d => x(c.cpc[d.key]) + 6).attr("y", rh / 2).attr("dy", "0.35em").style("font-family", "var(--font-mono)")
+    .style("font-size", "11px").text(d => f3(c.cpc[d.key]));
+  el.replaceChildren(svg.node());
+}
+
+/* ---------------------------------------------------------------- all-city charts */
+function swarm(values, x, y0, r) {
+  const nodes = values.map(d => ({ ...d, x: x(d.v), y: y0 }));
+  const sim = d3.forceSimulation(nodes).force("x", d3.forceX(d => x(d.v)).strength(1)).force("y", d3.forceY(y0).strength(0.08))
+    .force("c", d3.forceCollide(r + 0.6)).stop();
+  for (let i = 0; i < 160; i++) sim.tick();
+  return nodes;
+}
+function stripChart(el, rows, opts) {
+  const W = Math.max(320, el.clientWidth), rh = opts.rh || 70, m = { l: opts.ml || 120, r: 24, t: 10, b: 32 };
+  const H = m.t + m.b + rh * rows.length;
+  const all = rows.flatMap(r => r.values.map(d => d.v));
+  const x = d3.scaleLinear().domain(opts.domain || d3.extent(all)).nice().range([m.l, W - m.r]);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "grid").selectAll("line").data(x.ticks(6)).join("line")
+    .attr("x1", d => x(d)).attr("x2", d => x(d)).attr("y1", m.t).attr("y2", H - m.b);
+  if (opts.zero) svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", m.t).attr("y2", H - m.b).attr("stroke", css("--faint"));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(6).tickFormat(opts.tick || null).tickSizeOuter(0));
+  if (opts.xlab) svg.append("text").attr("x", W - m.r).attr("y", H - 2).attr("text-anchor", "end").text(opts.xlab);
+  rows.forEach((row, i) => {
+    const y0 = m.t + i * rh + rh / 2, g = svg.append("g");
+    g.append("text").attr("x", m.l - 12).attr("y", y0 - 6).attr("text-anchor", "end").attr("class", "lab").text(row.label);
+    const med = d3.median(row.values, d => d.v), pos = row.values.filter(d => d.v > 0).length;
+    g.append("text").attr("x", m.l - 12).attr("y", y0 + 10).attr("text-anchor", "end").style("font-family", "var(--font-mono)")
+      .style("font-size", "11px").text(`${opts.medfmt(med)} · ${pos}/${row.values.length}`);
+    const nodes = swarm(row.values, x, y0, 3.6);
+    g.append("line").attr("x1", x(med)).attr("x2", x(med)).attr("y1", y0 - rh / 2 + 6).attr("y2", y0 + rh / 2 - 6)
+      .attr("stroke", css("--paper")).attr("stroke-width", 1.5);
+    g.selectAll("circle").data(nodes).join("circle").attr("cx", d => d.x).attr("cy", d => d.y).attr("r", 3.6)
+      .attr("fill", row.color).attr("fill-opacity", .85).attr("data-city", d => d.slug).style("cursor", "pointer")
+      .on("mousemove", (ev, d) => showTip(ev, `<div class="t">${d.name}</div>${opts.tipfmt(d.v)}`)).on("mouseleave", hideTip)
+      .on("click", (ev, d) => setCity(d.slug, true));
+  });
+  el.replaceChildren(svg.node());
+}
+function drawStrips() {
+  const cs = S.doc.cities, fam = FAM();
+  const v = key => cs.map(c => ({ v: c.red[key], name: c.name, slug: c.slug }));
+  stripChart(document.getElementById("red-chart"), [
+    { label: "Binary version", values: v("binary"), color: fam.own },
+    { label: "Hard partition", values: v("partition"), color: fam.own },
+    { label: "Best of 12 plain", values: v("best12"), color: fam.strongest },
+    { label: "Best of 57, any kind", values: v("best57"), color: fam.strongest },
+  ], { domain: [0, 60], xlab: "Reduction in L1 by F (%)", medfmt: d => f1(d) + "%", tipfmt: d => `L1 lower by <b class="num">${f1(d)}%</b>`, ml: 130 });
+  stripChart(document.getElementById("gain-chart"), [
+    { label: "CPC, F − Pop + POI", values: cs.map(c => ({ v: c.cpc.F - c.cpc.poppoi, name: c.name, slug: c.slug })), color: css("--F") },
+    { label: "Spearman, F − Pop + POI", values: cs.map(c => ({ v: c.spearman.F - c.spearman.poppoi, name: c.name, slug: c.slug })), color: css("--F") },
+  ], { domain: [0, 0.1], zero: true, xlab: "Gain with F as place features", medfmt: d => fs(d), tipfmt: d => `gain <b class="num">${fs(d)}</b>`, ml: 170, rh: 80 });
+  stripChart(document.getElementById("g-chart"), [
+    { label: "G, raw", values: cs.map(c => ({ v: c.G_raw, name: c.name, slug: c.slug })), color: css("--overlap") },
+    { label: "G, within distance deciles", values: cs.map(c => ({ v: c.G_loc, name: c.name, slug: c.slug })), color: css("--overlap") },
+  ], { zero: true, xlab: "log₂ odds ratio, higher-order − everyday", medfmt: d => f2(d), tipfmt: d => `G = <b class="num">${f2(d)}</b>`, ml: 182, rh: 66 });
+  stripChart(document.getElementById("h-chart"), [
+    { label: "ΔH_inc, zone − rest", values: cs.map(c => ({ v: c.dHinc, name: c.name, slug: c.slug })), color: css("--own") },
+  ], { zero: true, xlab: "difference in income-quintile entropy", medfmt: d => f3(d), tipfmt: d => `ΔH<sub>inc</sub> = <b class="num">${f3(d)}</b>`, ml: 182, rh: 70 });
+}
+const METRICS = [
+  { key: "overlap_mean", label: "Mean overlap count", get: c => c.overlap_mean, fmt: f2, scheme: d3.interpolateYlOrBr },
+  { key: "red_part", label: "L1 reduction vs partition", get: c => c.red.partition, fmt: d => f1(d) + "%", scheme: d3.interpolateGnBu },
+  { key: "cpc_gain", label: "CPC gain over Pop + POI", get: c => c.cpc.F - c.cpc.poppoi, fmt: fs, scheme: d3.interpolateOrRd },
+  { key: "G", label: "Central-place contrast G", get: c => c.G_raw, fmt: f2, scheme: d3.interpolateBuGn },
+  { key: "hinc", label: "ΔH_inc", get: c => c.dHinc, fmt: f3, scheme: d3.interpolatePuBu },
+];
+function drawNation() {
+  const el = document.getElementById("nation-chart"), M = S.doc.map, met = METRICS.find(m => m.key === S.metric);
+  const W = Math.max(300, Math.floor(el.clientWidth)), sc = W / M.w, H = Math.round(M.h * sc) + 44;
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  const path = d3.path();
+  M.states.forEach(r => { path.moveTo(r[0] * sc, r[1] * sc); for (let i = 2; i < r.length; i += 2) path.lineTo(r[i] * sc, r[i + 1] * sc); path.closePath(); });
+  svg.append("path").attr("d", path.toString()).attr("fill", css("--ink-2")).attr("stroke", css("--rule-2")).attr("stroke-width", 0.8);
+  const cs = S.doc.cities, vals = cs.map(met.get);
+  const col = d3.scaleSequential(t => met.scheme(0.25 + 0.75 * t)).domain(d3.extent(vals));
+  const r = d3.scaleSqrt().domain([0, d3.max(cs, c => c.n_cbg)]).range([0, 22 * Math.min(1, W / 700) + 6]);
+  svg.append("g").selectAll("circle").data(cs.slice().sort((a, b) => b.n_cbg - a.n_cbg)).join("circle")
+    .attr("cx", c => c.x * sc).attr("cy", c => c.y * sc).attr("r", c => r(c.n_cbg)).attr("fill", c => col(met.get(c)))
+    .attr("fill-opacity", .9).attr("stroke", c => c.slug === S.cur ? css("--paper") : css("--ink")).attr("stroke-width", c => c.slug === S.cur ? 2.5 : 1)
+    .style("cursor", "pointer").on("mousemove", (ev, c) => showTip(ev, `<div class="t">${c.name}, ${c.state}</div>${met.label}: <b class="num">${met.fmt(met.get(c))}</b><br>${fc(c.n_cbg)} block groups`))
+    .on("mouseleave", hideTip).on("click", (ev, c) => setCity(c.slug, true));
+  const lg = svg.append("g").attr("transform", `translate(${Math.max(8, W - 236)},${H - 30})`);
+  const n = 40, [lo, hi] = col.domain();
+  lg.selectAll("rect").data(d3.range(n)).join("rect").attr("x", i => i * 5).attr("width", 5.5).attr("height", 9).attr("fill", i => col(lo + (hi - lo) * i / (n - 1)));
+  lg.append("text").attr("x", 0).attr("y", 22).style("font-family", "var(--font-mono)").style("font-size", "11px").text(met.fmt(lo));
+  lg.append("text").attr("x", 200).attr("y", 22).attr("text-anchor", "end").style("font-family", "var(--font-mono)").style("font-size", "11px").text(met.fmt(hi));
+  lg.append("text").attr("x", 0).attr("y", -6).text(met.label);
+  el.replaceChildren(svg.node());
+}
+function drawSize() {
+  const el = document.getElementById("size-chart"), cs = S.doc.cities;
+  const W = Math.max(300, el.clientWidth), H = 300, m = { l: 46, r: 14, t: 12, b: 40 };
+  const x = d3.scaleLog().domain(d3.extent(cs, c => c.pop)).nice().range([m.l, W - m.r]);
+  const y = d3.scaleLinear().domain(d3.extent(cs, c => c.overlap_mean)).nice().range([H - m.b, m.t]);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(4, "~s").tickSizeOuter(0));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(5).tickSizeOuter(0));
+  svg.append("text").attr("x", W - m.r).attr("y", H - 4).attr("text-anchor", "end").text("residents (log scale)");
+  svg.append("text").attr("x", m.l + 4).attr("y", m.t + 4).attr("dy", "0.7em").text("mean overlap count");
+  svg.append("g").selectAll("circle").data(cs).join("circle").attr("cx", c => x(c.pop)).attr("cy", c => y(c.overlap_mean))
+    .attr("r", c => c.slug === S.cur ? 6.5 : 4.2).attr("fill", css("--F")).attr("fill-opacity", c => c.slug === S.cur ? 1 : .7)
+    .attr("stroke", c => c.slug === S.cur ? css("--paper") : "none").attr("stroke-width", 2).style("cursor", "pointer")
+    .on("mousemove", (ev, c) => showTip(ev, `<div class="t">${c.name}</div>${fc(c.pop)} residents<br>mean overlap count <b class="num">${f2(c.overlap_mean)}</b>`))
+    .on("mouseleave", hideTip).on("click", (ev, c) => setCity(c.slug, true));
+  el.replaceChildren(svg.node());
+}
+function drawCategories() {
+  const el = document.getElementById("cat-chart"), cats = S.doc.categories.slice().sort((a, b) => b.median - a.median);
+  const W = Math.max(320, el.clientWidth), rh = 19, m = { l: 206, r: 18, t: 22, b: 32 }, H = m.t + m.b + rh * cats.length;
+  const lo = d3.min(cats, c => Math.min(c.q25, ...Object.values(c.per_city))), hi = d3.max(cats, c => Math.max(c.q75, ...Object.values(c.per_city)));
+  const x = d3.scaleLinear().domain([Math.max(-4, lo), Math.min(4, hi)]).nice().range([m.l, W - m.r]).clamp(true);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "grid").selectAll("line").data(x.ticks(8)).join("line")
+    .attr("x1", d => x(d)).attr("x2", d => x(d)).attr("y1", m.t).attr("y2", H - m.b);
+  svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", m.t).attr("y2", H - m.b).attr("stroke", css("--faint"));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).ticks(8).tickSizeOuter(0));
+  svg.append("text").attr("x", W - m.r).attr("y", H - 2).attr("text-anchor", "end").text("log₂ odds ratio, overlap zone vs rest");
+  const gc = { "higher-order": css("--F"), everyday: css("--overlap") };
+  [["higher-order", "Higher-order"], ["everyday", "Everyday"]].forEach(([k, lab], i) => {
+    const g = svg.append("g").attr("transform", `translate(${m.l + i * 118},8)`);
+    g.append("circle").attr("r", 4.5).attr("fill", gc[k]); g.append("text").attr("x", 9).attr("dy", "0.35em").attr("class", "lab").text(lab);
+  });
+  const c = S.by.get(S.cur);
+  const g = svg.append("g").selectAll("g").data(cats).join("g").attr("transform", (d, i) => `translate(0,${m.t + 6 + i * rh + rh / 2})`);
+  g.append("text").attr("x", m.l - 10).attr("dy", "0.35em").attr("text-anchor", "end").text(d => d.label);
+  g.append("line").attr("x1", d => x(d.q25)).attr("x2", d => x(d.q75)).attr("stroke", d => gc[d.group]).attr("stroke-width", 2.5).attr("stroke-opacity", .55);
+  g.append("circle").attr("cx", d => x(d.median)).attr("r", 4.5).attr("fill", d => gc[d.group]);
+  g.filter(d => c && d.per_city[c.name] != null).append("circle").attr("cx", d => x(d.per_city[c.name])).attr("r", 6.5)
+    .attr("fill", "none").attr("stroke", css("--paper")).attr("stroke-width", 1.4);
+  g.append("rect").attr("x", 0).attr("y", -rh / 2).attr("width", W).attr("height", rh).attr("fill", "transparent")
+    .on("mousemove", (ev, d) => showTip(ev, `<div class="t">${d.category}</div>${d.group}; median log₂ OR <b class="num">${f2(d.median)}</b><br>OR &gt; 1 in ${d.n_gt1} of ${d.n} cities` +
+      (c && d.per_city[c.name] != null ? `<br>${c.name}: <b class="num">${f2(d.per_city[c.name])}</b>` : ""))).on("mouseleave", hideTip);
+  el.replaceChildren(svg.node());
+}
+function metricButtons() {
+  const seg = document.getElementById("metric-seg");
+  seg.innerHTML = METRICS.map(m => `<button type="button" data-k="${m.key}" class="${m.key === S.metric ? "on" : ""}">${m.label}</button>`).join("");
+  seg.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { S.metric = b.dataset.k; metricButtons(); drawNation(); }));
+}
+function highlight() {
+  document.querySelectorAll("circle[data-city]").forEach(el => {
+    const on = el.dataset.city === S.cur;
+    el.setAttribute("stroke", on ? css("--paper") : "none"); el.setAttribute("stroke-width", on ? 2 : 0);
+    el.setAttribute("r", on ? 5.4 : 3.6); if (on) el.parentNode.appendChild(el);
+  });
+}
+
+/* ---------------------------------------------------------------- city selection */
+async function setCity(slug, scroll) {
+  if (!S.by.has(slug)) slug = "austin";
+  S.cur = slug; document.getElementById("city-select").value = slug;
+  const c = S.by.get(slug);
+  l1Chart(c); cpcChart(c); drawNation(); drawSize(); drawCategories(); highlight();
+  if (scroll) document.getElementById("atlas").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" });
+  document.getElementById("stack-cap").textContent = "Loading " + c.name + "…";
+  let cd;
+  try { cd = await loadCity(slug); } catch (e) { document.getElementById("stack-cap").textContent = "Could not load " + c.name + ": " + e.message; return; }
+  if (S.cur !== slug) return;
+  S.curData = cd; S.hoverStack = null; S.hoverFlow = null;
+  stackLegend(cd);
+  let best = 0; cd.count.forEach((v, i) => { if (v > cd.count[best] || (v === cd.count[best] && d3.sum(cd.F[i]) > d3.sum(cd.F[best]))) best = i; });
+  selectCBG(cd, best);
+  S.t = 0; drawStack(cd); if (S.mode === "stack") animateStack(1);
+}
+async function init() {
+  try { S.doc = await getJSON("data/cities.json"); }
+  catch (e) { document.getElementById("stack-cap").textContent = "Could not load the data: " + e.message; return; }
+  S.doc.cities.forEach(c => S.by.set(c.slug, c));
+  const sel = document.getElementById("city-select");
+  sel.innerHTML = S.doc.cities.slice().sort((a, b) => d3.ascending(a.name, b.name)).map(c => `<option value="${c.slug}">${c.name}, ${c.state}</option>`).join("");
+  sel.addEventListener("change", () => setCity(sel.value, false));
+  document.getElementById("mode-stack").addEventListener("click", () => { S.mode = "stack"; toggleMode(); animateStack(1); });
+  document.getElementById("mode-flat").addEventListener("click", () => { S.mode = "flat"; toggleMode(); if (S.curData) drawStack(S.curData); });
+  stackCanvas.addEventListener("mousemove", ev => requestAnimationFrame(() => stackHover(ev)));
+  stackCanvas.addEventListener("mouseleave", () => { S.hoverStack = null; hideTip(); if (S.curData) drawStack(S.curData); });
+  flowCanvas.addEventListener("mousemove", ev => requestAnimationFrame(() => flowEvent(ev, false)));
+  flowCanvas.addEventListener("mouseleave", () => { S.hoverFlow = null; hideTip(); if (S.curData) drawFlow(S.curData); });
+  flowCanvas.addEventListener("click", ev => flowEvent(ev, true));
+  metricButtons(); drawStrips();
+  const h = location.hash.slice(1);
+  await setCity(S.by.has(h) ? h : "austin", false);
+  window.addEventListener("hashchange", () => { const k = location.hash.slice(1); if (S.by.has(k) && k !== S.cur) setCity(k, true); });
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => {
+    const c = S.by.get(S.cur); l1Chart(c); cpcChart(c); drawStrips(); drawNation(); drawSize(); drawCategories(); highlight();
+    if (S.curData) { drawStack(S.curData); drawFlow(S.curData); } }, 150); });
+}
+function toggleMode() {
+  document.getElementById("mode-stack").classList.toggle("on", S.mode === "stack");
+  document.getElementById("mode-flat").classList.toggle("on", S.mode === "flat");
+}
+init();
+</script>
+</body>
+</html>
