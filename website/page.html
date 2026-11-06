@@ -48,8 +48,7 @@ p { margin: 0; max-width: 65ch; }
 .mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 section { border-top: 1px solid var(--rule); }
 section > .wrap { padding-block: 56px; display: grid; gap: 28px; }
-.hero > .wrap { padding-block: 36px 48px; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: 36px; }
-.hero-text { display: grid; gap: 22px; align-content: start; }
+[id] { scroll-margin-top: 52px; }
 .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 22px; margin-top: 4px; }
 .fact { border-left: 2px solid var(--rule-2); padding-left: 12px; }
 .fact .v { font-family: var(--font-display); font-size: 2rem; font-weight: 600; line-height: 1.05; }
@@ -65,7 +64,6 @@ button.on { background: var(--paper); color: var(--ink); border-color: var(--pap
 .stage { position: relative; background: radial-gradient(120% 90% at 50% 40%, var(--ink-3), var(--ink) 70%); border: 1px solid var(--rule);
   border-radius: 10px; overflow: hidden; min-width: 0; }
 .stage canvas { display: block; width: 100%; height: 100%; touch-action: manipulation; }
-#stack-stage { aspect-ratio: 5 / 6; }
 #flow-stage { aspect-ratio: 1 / 1; }
 .stage .legend { position: absolute; left: 12px; bottom: 10px; right: 12px; display: flex; flex-wrap: wrap; gap: 4px 10px;
   font-size: 12px; color: var(--muted); pointer-events: none; }
@@ -106,9 +104,83 @@ footer .wrap { padding-block: 36px 56px; display: grid; gap: 14px; font-size: 14
 .card { background: var(--ink-2); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
 .card h3 { color: var(--paper); }
 .loading { color: var(--muted); font-size: 14px; }
+/* Immersive maps: a canvas fills the screen; text and controls float over it, beside the drawn city. */
+.immersive { --hud-l: clamp(16px, 2.6vw, 44px); --intro-w: min(400px, 31vw); --pick-w: min(340px, 27vw);
+  position: relative; height: calc(100svh - 45px); min-height: 600px; overflow: hidden; border-top: 0;
+  background: radial-gradient(110% 95% at 64% 48%, #1a2533 0%, #111923 48%, var(--ink) 82%); }
+.canvasbox { position: absolute; inset: 0; }
+.canvasbox canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+#poi-top { touch-action: pan-x pan-y; cursor: grab; }
+#poi-top:active { cursor: grabbing; }
+.hud { position: absolute; inset: 0; pointer-events: none; }
+.intro { position: absolute; left: var(--hud-l); top: 22px; bottom: 22px; width: var(--intro-w); display: flex;
+  flex-direction: column; gap: 14px; overflow-y: auto; scrollbar-width: thin; pointer-events: auto; padding: 6px 8px 6px 0; }
+.intro h1 { font-size: clamp(1.9rem, 2.6vw, 2.7rem); }
+.intro h2 { font-size: clamp(1.6rem, 2.3vw, 2.2rem); }
+.intro .lede { font-size: 1rem; line-height: 1.55; }
+.intro p { font-size: 14.5px; line-height: 1.55; }
+.intro .cap { font-size: 13px; color: var(--muted); line-height: 1.5; }
+#poi .intro { bottom: auto; max-height: calc(100% - 44px); padding: 16px 16px 16px; gap: 14px; border-radius: 12px;
+  background: color-mix(in srgb, var(--ink) 86%, transparent); border: 1px solid var(--rule); backdrop-filter: blur(6px); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px;
+  font-size: 12.5px; background: color-mix(in srgb, var(--ink-2) 85%, transparent); }
+.chips button i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.chips button .num { color: var(--muted); font-size: 11.5px; }
+.chips button.on { border-color: var(--paper); color: var(--paper); background: var(--ink-3); }
+.chips button.off { opacity: .42; }
+.hint { position: absolute; bottom: 16px; left: calc(var(--hud-l) + var(--intro-w) + (100% - var(--hud-l) - var(--intro-w)) / 2);
+  transform: translateX(-50%); padding: 5px 12px; border-radius: 999px; font-size: 12.5px; color: var(--muted);
+  white-space: nowrap; background: rgb(12 17 24 / .72); border: 1px solid var(--rule); pointer-events: none;
+  transition: opacity .3s, color .3s, border-color .3s; }
+.hint.gone { opacity: 0; }
+.hint.pulse { color: var(--paper); border-color: var(--F); }
+.pick { position: absolute; right: clamp(12px, 1.8vw, 28px); top: 18px; max-height: calc(100% - 36px); width: var(--pick-w);
+  overflow-y: auto; scrollbar-width: thin; pointer-events: auto; display: grid; gap: 10px; align-content: start;
+  background: color-mix(in srgb, var(--ink-2) 94%, transparent); border: 1px solid var(--rule-2); border-radius: 12px;
+  padding: 14px 16px 16px; box-shadow: 0 18px 50px rgb(0 0 0 / .45);
+  transform: translateX(calc(100% + 48px)); opacity: 0; visibility: hidden;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1), opacity .3s, visibility 0s linear .45s; }
+.pick.open { transform: none; opacity: 1; visibility: visible;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1), opacity .3s, visibility 0s; }
+.pick .x { position: absolute; right: 10px; top: 10px; width: 30px; height: 30px; padding: 0; border-radius: 50%;
+  font-size: 18px; line-height: 1; }
+.pick h3 { font-size: 1rem; }
+.pick-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; letter-spacing: .03em; padding-right: 36px; }
+.pick-sum { font-size: 13px; color: var(--muted); line-height: 1.45; }
+.minis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.mini { display: grid; gap: 4px; min-width: 0; }
+.mini canvas { width: 100%; aspect-ratio: 1 / 1; display: block; background: var(--ink); border: 1px solid var(--rule); border-radius: 6px; }
+.mini .lab { font-size: 12px; color: var(--muted); line-height: 1.35; }
+.facts-band > .wrap { padding-block: 26px 30px; }
+.facts-band .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; }
+.zoomer { position: absolute; right: 16px; bottom: 16px; display: grid; gap: 6px; pointer-events: auto; }
+.zoomer button { width: 34px; height: 34px; padding: 0; font-size: 17px; line-height: 1; }
+.ovl { display: flex; gap: 3px; align-items: flex-end; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.ovl .k { margin-right: 6px; }
+.ovl span:not(.k) { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; min-width: 30px; }
+.ovl span i { display: block; width: 30px; height: 10px; border-radius: 2px; border: 1px solid var(--rule); }
+.gcard { display: grid; gap: 6px; background: color-mix(in srgb, var(--ink-2) 88%, transparent); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 12px; }
+.gcard h3 { font-size: 1rem; }
+.status { font-size: 12.5px; color: var(--F); }
+.status:empty { display: none; }
+#poi .intro h2 { font-size: clamp(1.5rem, 2vw, 1.95rem); }
+#poi-city { max-width: 150px; }
+#poi .controls { gap: 8px; }
 @media (max-width: 900px) {
-  .hero > .wrap, .grid2, .grid-73, .cards3 { grid-template-columns: minmax(0, 1fr); }
-  #stack-stage { aspect-ratio: 1 / 1; }
+  .grid2, .grid-73, .cards3 { grid-template-columns: minmax(0, 1fr); }
+  .immersive { height: auto; min-height: 0; display: flex; flex-direction: column; overflow: visible; }
+  .hud { display: contents; }
+  .intro, #poi .intro { position: static; order: 1; width: auto; max-height: none; overflow: visible; padding: 22px 16px 12px;
+    border: 0; border-radius: 0; background: none; backdrop-filter: none; }
+  .canvasbox { position: relative; inset: auto; order: 2; height: min(78svh, 600px); }
+  .hint { position: static; order: 3; transform: none; align-self: center; margin: 8px 16px 0; white-space: normal; text-align: center; }
+  .pick { position: static; order: 4; width: auto; max-height: none; margin: 10px 16px 20px; transform: none; opacity: 1;
+    visibility: visible; display: none; transition: none; }
+  .pick.open { display: grid; }
+  .zoomer { position: static; order: 3; display: flex; justify-content: flex-end; margin: 8px 16px 0; }
+  .facts-band .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) { nav.links { display: none; } .stage .note { max-width: 80%; font-size: 11.5px; } }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
@@ -118,37 +190,49 @@ footer .wrap { padding-block: 36px 56px; display: grid; gap: 14px; font-size: 14
   <div class="brand">Overlapping <b>mesoscale</b> atlas</div>
   <nav class="links" aria-label="Sections">
     <a href="#atlas">Atlas</a><a href="#reconstruct">Reconstruction</a><a href="#generate">Generation</a>
-    <a href="#cities">50 cities</a><a href="#places">Shared places</a><a href="#data">Data &amp; code</a>
+    <a href="#cities">50 cities</a><a href="#poi">Places &amp; flows</a><a href="#places">Shared places</a><a href="#data">Data &amp; code</a>
   </nav>
 </div></header>
 
-<section class="hero" id="atlas"><div class="wrap">
-  <div class="hero-text">
-    <div class="eyebrow">Companion to the manuscript · under review</div>
-    <h1>Mobility flows reveal an <em>overlapping mesoscale</em> in 50 US cities</h1>
-    <p class="lede">Cities are usually divided into disjoint regions, yet many places serve several of them. From the trips between census block groups, a graph neural network infers how strongly each place belongs to each of ten communities. These weighted, overlapping memberships reproduce a city's flows and generate the flows of places they were not fitted to.</p>
-    <div class="facts">
-      <div class="fact"><div class="v num">50</div><div class="k">large US cities, plus the Twin Cities metropolitan area as a case study</div></div>
-      <div class="fact"><div class="v num">39,228</div><div class="k">census block groups</div></div>
-      <div class="fact"><div class="v num">53.9 M</div><div class="k">trips between block groups on five weekdays, 19–23 July 2021</div></div>
-      <div class="fact"><div class="v num">K = 10</div><div class="k">weighted communities per city; a place is shared when its membership exceeds 0.5 in two or more</div></div>
-    </div>
-    <div class="controls">
-      <label class="eyebrow" for="city-select">City</label>
-      <select id="city-select" aria-label="Choose a city"></select>
-      <div class="seg" role="group" aria-label="View">
-        <button type="button" id="mode-stack" class="on">Stacked layers</button>
-        <button type="button" id="mode-flat">Flat map</button>
+<section class="immersive" id="atlas">
+  <div class="canvasbox"><canvas id="stack-canvas" aria-label="The communities of the chosen city drawn as stacked layers; choose a block group to show the communities it belongs to"></canvas></div>
+  <div class="hud">
+    <div class="intro">
+      <div class="eyebrow">Companion to the manuscript · under review</div>
+      <h1>Mobility flows reveal an <em>overlapping mesoscale</em> in 50 US cities</h1>
+      <p class="lede">Cities are usually divided into disjoint regions, yet many places serve several of them. From the trips between census block groups, a graph neural network infers how strongly each place belongs to each of ten communities. These weighted, overlapping memberships reproduce a city's flows and generate the flows of places they were not fitted to.</p>
+      <div class="controls">
+        <label class="eyebrow" for="city-select">City</label>
+        <select id="city-select" aria-label="Choose a city"></select>
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" id="mode-stack" class="on">Stacked layers</button>
+          <button type="button" id="mode-flat">Flat map</button>
+        </div>
       </div>
+      <div class="chips" id="stack-legend" aria-label="Communities"></div>
+      <p class="cap" id="stack-note">Each layer is one community: the block groups whose membership exceeds 0.5. A place drawn in several layers is shared by these communities; thin lines join its copies.</p>
+      <p class="cap" id="stack-cap">Loading the city…</p>
     </div>
+    <aside class="pick" id="pick" aria-hidden="true" aria-label="The selected block group">
+      <button type="button" class="x" id="pick-close" aria-label="Clear the selection">×</button>
+      <div class="eyebrow">Selected block group</div>
+      <div class="pick-title" id="pick-title"></div>
+      <p class="pick-sum" id="pick-sum"></p>
+      <div class="memb" id="pick-memb"></div>
+      <h3 id="pick-h">Where its communities lie</h3>
+      <div class="minis" id="pick-minis"></div>
+      <p class="cap">Each map shows one community, its block groups shaded by membership above 0.5; the ring marks the selected block group. The flow map below now starts from this place.</p>
+    </aside>
+    <div class="hint" id="stack-hint">Click a block group to see the communities it belongs to</div>
   </div>
-  <div class="panel">
-    <div class="stage" id="stack-stage">
-      <canvas id="stack-canvas" aria-label="The communities of the chosen city drawn as stacked layers"></canvas>
-      <div class="note" id="stack-note">Each layer is one community: the block groups whose membership exceeds 0.5. A place drawn in several layers is shared by these communities; thin lines join its copies.</div>
-      <div class="legend" id="stack-legend"></div>
-    </div>
-    <p class="cap" id="stack-cap">Loading the city…</p>
+</section>
+
+<section class="facts-band" aria-label="The data in numbers"><div class="wrap">
+  <div class="facts">
+    <div class="fact"><div class="v num">50</div><div class="k">large US cities, plus the Twin Cities metropolitan area as a case study</div></div>
+    <div class="fact"><div class="v num">39,228</div><div class="k">census block groups</div></div>
+    <div class="fact"><div class="v num">53.9 M</div><div class="k">trips between block groups on five weekdays, 19–23 July 2021</div></div>
+    <div class="fact"><div class="v num">K = 10</div><div class="k">weighted communities per city; a place is shared when its membership exceeds 0.5 in two or more</div></div>
   </div>
 </div></section>
 
@@ -232,6 +316,46 @@ footer .wrap { padding-block: 36px 56px; display: grid; gap: 14px; font-size: 14
   </div>
 </div></section>
 
+<section class="immersive" id="poi">
+  <div class="canvasbox">
+    <canvas id="poi-base" aria-hidden="true"></canvas>
+    <canvas id="poi-top" aria-label="Map of the chosen city: points of interest, the overlap count of each block group and the strongest flows that the memberships imply between communities"></canvas>
+  </div>
+  <div class="hud">
+    <div class="intro">
+      <div class="eyebrow">Points of interest and flows · Fig. 5</div>
+      <h2>Higher-order functions gather where communities overlap</h2>
+      <p>Each dot is a point of interest, placed at random within its block group; block groups are shaded by overlap count. Arcs are the strongest flows the memberships imply, exp(F<sub>u</sub>·F<sub>v</sub>), between block groups whose largest memberships lie in different communities (at most ten per block group).</p>
+      <div class="controls">
+        <label class="eyebrow" for="poi-city">City</label>
+        <select id="poi-city" aria-label="Choose a city for this map"></select>
+        <div class="seg" role="group" aria-label="Colour the points by">
+          <button type="button" id="poi-by-order" class="on">By order</button>
+          <button type="button" id="poi-by-type">By type</button>
+        </div>
+      </div>
+      <div class="chips" id="poi-chips" aria-label="Points of interest shown"></div>
+      <div class="chips" aria-label="Layers">
+        <button type="button" id="poi-shade" class="on" aria-pressed="true">Overlap shading</button>
+        <button type="button" id="poi-flows" class="on" aria-pressed="true">Flows</button>
+      </div>
+      <div class="ovl" id="poi-ovl"></div>
+      <div class="gcard">
+        <h3>Central-place contrast by overlap count</h3>
+        <div class="chart" id="poi-g"></div>
+        <p class="cap">Bars: <span id="poi-gcity">the chosen city</span>; lines: median of the 50 cities. G, the mean log<sub>2</sub> odds ratio of higher-order minus everyday categories, for overlap counts 2, 3 and ≥4, each against 0–1 (Supplementary Table 12).</p>
+      </div>
+      <div class="status" id="poi-status" role="status"></div>
+    </div>
+    <div class="zoomer">
+      <button type="button" id="poi-zin" aria-label="Zoom in">+</button>
+      <button type="button" id="poi-zout" aria-label="Zoom out">−</button>
+      <button type="button" id="poi-zreset" aria-label="Show the whole city">⟲</button>
+    </div>
+    <div class="hint" id="poi-hint">Drag to pan · pinch or ⌘/Ctrl + scroll to zoom · hover for counts</div>
+  </div>
+</section>
+
 <section id="places"><div class="wrap">
   <div class="head">
     <div class="eyebrow">What shared places offer · Fig. 5</div>
@@ -283,7 +407,8 @@ const FAM = () => ({ F: css("--F"), own: css("--own"), overlap: css("--overlap")
 const FAM_LABEL = { F: "F (this study)", own: "Own discretizations", overlap: "Overlapping methods", partition: "Partitions",
   embedding: "Node embeddings", reference: "References", strongest: "Strongest per city" };
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const S = { doc: null, by: new Map(), cur: null, cache: new Map(), mode: "stack", sel: null, metric: "overlap_mean", t: 1 };
+const S = { doc: null, by: new Map(), cur: null, cache: new Map(), mode: "stack", sel: null, metric: "overlap_mean", t: 1,
+  pick: null, pinI: null, solo: null, focusKs: null, focus: 0, vpR: 0, fr: null };
 const tip = document.getElementById("tip");
 const f3 = d3.format(".3f"), f2 = d3.format(".2f"), f1 = d3.format(".1f"), fc = d3.format(","), fs = d3.format("+.3f");
 
@@ -311,16 +436,16 @@ function decodeCity(raw) {
       let x = r[0], y = r[1]; p.moveTo(x, y);
       for (let i = 2; i < r.length; i += 2) { x += r[i]; y += r[i + 1]; p.lineTo(x, y);
         if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
-      if (r[0] < x0) x0 = r[0]; if (r[1] < y0) y0 = r[1];
+      if (r[0] < x0) x0 = r[0]; if (r[1] < y0) y0 = r[1]; if (r[0] > x1) x1 = r[0]; if (r[1] > y1) y1 = r[1];
       p.closePath();
     });
     paths.push(p); bbox.push([x0, y0, x1, y1]);
   });
-  const fmax = d3.range(K).map(k => d3.max(F, r => r[k]) || 1);
-  return { ...raw, n, K, F, count, main, paths, bbox, fmax, isoSet: new Set(raw.iso || []) };
+  const fmax = d3.range(K).map(k => d3.max(F, r => r[k]) || 1), sizes = d3.range(K).map(k => d3.sum(F, r => r[k] > 0.5));
+  return { ...raw, n, K, F, count, main, paths, bbox, fmax, sizes, isoSet: new Set(raw.iso || []) };
 }
 async function loadCity(slug) {
-  if (!S.cache.has(slug)) S.cache.set(slug, getJSON(`data/city/${slug}.json`).then(decodeCity));
+  if (!S.cache.has(slug)) S.cache.set(slug, getJSON(`data/city/${slug}.json`).then(r => Object.assign(decodeCity(r), { slug })));
   return S.cache.get(slug);
 }
 const hit = document.createElement("canvas").getContext("2d");
@@ -334,8 +459,8 @@ function findCBG(cd, fx, fy, filter) {
   return -1;
 }
 
-/* ---------------------------------------------------------------- stacked layers */
-const stackCanvas = document.getElementById("stack-canvas");
+/* ---------------------------------------------------------------- stacked layers: the immersive atlas */
+const stackCanvas = document.getElementById("stack-canvas"), pickEl = document.getElementById("pick");
 function layerCanvases(cd) {
   if (cd.layers) return cd.layers;
   const res = Math.min(1, 1600 / Math.max(cd.w, cd.h));
@@ -359,76 +484,135 @@ function layerCanvases(cd) {
   cd.layers = { base, layers };
   return cd.layers;
 }
-const TILT = 0.24;                                  // vertical squash of the tilted plates
-function isoParams(cd, W, H, t) {
-  const gap = t * H * 0.05;                        // layers stacked like a deck of transparent sheets
-  const ix = (cd.w + cd.h) * 0.7071, iy = (cd.w + cd.h) * TILT;
-  const s = Math.min((W * 0.86) / ix, (H * 0.86 - H * 0.05 * cd.K) / iy);
-  const e = W / 2 - s * 0.7071 * (cd.w - cd.h) / 2;
-  const f0 = (H - (s * iy + gap * cd.K)) / 2 + gap * cd.K + H * 0.02;
-  return { s, e, f0, gap };
+const TILT = 0.24, GAPF = 0.05;                     // vertical squash of the tilted plates; gap between plates
+const tweens = new Map();
+let tweening = false;
+function tweenTo(key, to, dur) {                    // animate S[key]; the stack is redrawn on every frame
+  if (REDUCED || !dur) { tweens.delete(key); S[key] = to; } else tweens.set(key, { from: S[key], to, t0: performance.now(), dur });
+  if (tweening) return;
+  tweening = true;
+  requestAnimationFrame(function step(now) {
+    tweens.forEach((tw, k) => {
+      const u = Math.min(1, (now - tw.t0) / tw.dur);
+      S[k] = tw.from + (tw.to - tw.from) * d3.easeCubicInOut(u);
+      if (u >= 1) tweens.delete(k);
+    });
+    if (S.curData) drawStack(S.curData);
+    if (tweens.size) requestAnimationFrame(step); else tweening = false;
+  });
+}
+function stackViewport(W, H) {                      // the part of the canvas beside the text and the open panel
+  if (window.innerWidth <= 900) return [6, 6, W - 34, H - 6];   // room on the right for the community labels
+  const t = document.querySelector("#atlas .intro").getBoundingClientRect(), r = stackCanvas.getBoundingClientRect();
+  return [t.right - r.left + 16, 22, W - 22 - S.vpR, H - 52];
+}
+function stackFrame(cd, W, H) {
+  // u = 0: the flat map, north up; u = 1: plates turned by 45 degrees, tilted and stacked with a gap
+  const [x0, y0, x1, y1] = stackViewport(W, H), u = S.t;
+  const th = u * Math.PI / 4, q = 1 - u * (1 - TILT / Math.SQRT1_2), co = Math.cos(th), si = Math.sin(th);
+  const xs = [0, cd.w * co, -cd.h * si, cd.w * co - cd.h * si], ys = [0, q * cd.w * si, q * cd.h * co, q * (cd.w * si + cd.h * co)];
+  const mx = d3.min(xs), my = d3.min(ys), bw = d3.max(xs) - mx, bh = d3.max(ys) - my;
+  const vw = Math.max(60, x1 - x0), vh = Math.max(60, y1 - y0), gap = u * vh * GAPF, sh = gap * cd.K;
+  const s = Math.max(1e-6, Math.min(vw * 0.95 / bw, (vh * 0.95 - sh) / bh));
+  const e = x0 + (vw - s * bw) / 2 - s * mx, f = y0 + (vh - s * bh - sh) / 2 + sh - s * my;
+  return { m: [s * co, s * q * si, -s * si, s * q * co, e, f], s, gap, u };
+}
+const proj = (fr, x, y) => [fr.m[0] * x + fr.m[2] * y + fr.m[4], fr.m[1] * x + fr.m[3] * y + fr.m[5]];
+function unproj(fr, px, py, off) {                  // screen point on the plate raised by off -> map coordinates
+  const [a, b, c, d, e, f] = fr.m, X = px - e, Y = py - f + off, det = a * d - b * c;
+  return [(d * X - c * Y) / det, (a * Y - b * X) / det];
 }
 const geoid = g => g.length === 15 ? g.slice(1, 3) + g.slice(4, 7) + g.slice(8) : g.replace(/^G/, "");
 function drawStack(cd) {
   const dpr = window.devicePixelRatio || 1, W = stackCanvas.clientWidth, H = stackCanvas.clientHeight;
-  if (stackCanvas.width !== Math.round(W * dpr)) { stackCanvas.width = Math.round(W * dpr); stackCanvas.height = Math.round(H * dpr); }
+  if (!W || !H) return;
+  if (stackCanvas.width !== Math.round(W * dpr) || stackCanvas.height !== Math.round(H * dpr)) {
+    stackCanvas.width = Math.round(W * dpr); stackCanvas.height = Math.round(H * dpr); }
   const ctx = stackCanvas.getContext("2d");
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, stackCanvas.width, stackCanvas.height);
-  const { base, layers } = layerCanvases(cd);
-  const t = S.mode === "stack" ? S.t : 0;
-  const { s, e, f0, gap } = isoParams(cd, W, H, t);
-  const a = s * 0.7071, b = s * TILT;
-  const at = off => ctx.setTransform(dpr * a, dpr * b, -dpr * a, dpr * b, dpr * e, dpr * (f0 - off));
+  const { base, layers } = layerCanvases(cd), fr = S.fr = stackFrame(cd, W, H), { u, gap } = fr;
+  const [a, b, c, d, e, f] = fr.m, paper = css("--paper");
+  const at = off => ctx.setTransform(dpr * a, dpr * b, dpr * c, dpr * d, dpr * e, dpr * (f - off));
+  const fo = S.focus, fs = S.focusKs && fo > 0.001 ? new Set(S.focusKs) : null;
   at(0); ctx.globalAlpha = 1; ctx.drawImage(base, 0, 0, cd.w, cd.h);
-  const order = d3.range(cd.K);
-  order.forEach(k => { at(gap * (k + 1)); ctx.globalAlpha = t > 0.02 ? 0.92 : 0.55; ctx.drawImage(layers[k], 0, 0, cd.w, cd.h); });
-  ctx.globalAlpha = 1;
-  if (t > 0.3) {                                      // community labels at the right corner of each plate
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.font = "600 12px " + css("--font-display"); ctx.textBaseline = "middle"; ctx.globalAlpha = Math.min(1, (t - 0.3) / 0.5);
-    order.forEach(k => { ctx.fillStyle = COMM[k % COMM.length]; ctx.fillText("C" + (k + 1), a * cd.w + e + 8, b * cd.w + f0 - gap * (k + 1)); });
+  for (let k = 0; k < cd.K; k++) {
+    let al = 0.55 + 0.37 * Math.min(1, u / 0.15);       // overlaid on the flat map, near opaque when stacked
+    if (fs) al = fs.has(k) ? al + (0.96 - al) * fo : al * (1 - 0.88 * fo);
+    if (al < 0.01) continue;
+    at(gap * (k + 1)); ctx.globalAlpha = al; ctx.drawImage(layers[k], 0, 0, cd.w, cd.h);
+  }
+  ctx.globalAlpha = 1; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (u > 0.3) {                                     // community labels at the right corner of each plate
+    const [rx, ry] = proj(fr, cd.w, 0);
+    ctx.font = "600 12px " + css("--font-display"); ctx.textBaseline = "middle";
+    for (let k = 0; k < cd.K; k++) {
+      ctx.globalAlpha = Math.min(1, (u - 0.3) / 0.5) * (fs && !fs.has(k) ? 1 - 0.8 * fo : 1);
+      ctx.fillStyle = COMM[k % COMM.length]; ctx.fillText("C" + (k + 1), rx + 8, ry - gap * (k + 1));
+    }
     ctx.globalAlpha = 1;
   }
-  if (t > 0.05) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.strokeStyle = "rgba(235,229,214," + (0.16 * t) + ")"; ctx.lineWidth = 0.6;
+  if (u > 0.05) {                                    // thin lines join the copies of a shared place
+    ctx.strokeStyle = `rgba(235,229,214,${0.16 * u * (1 - 0.75 * fo)})`; ctx.lineWidth = 0.6;
     ctx.beginPath();
     for (let i = 0; i < cd.n; i++) {
       if (cd.count[i] < 2) continue;
-      const ks = []; cd.F[i].forEach((v, k) => { if (v > 0.5) ks.push(k); });
-      const [cx, cy] = [cd.cx[i], cd.cy[i]];
-      const sx = a * cx - a * cy + e, sy = b * cx + b * cy + f0;
-      ctx.moveTo(sx, sy - gap * (d3.min(ks) + 1)); ctx.lineTo(sx, sy - gap * (d3.max(ks) + 1));
+      let k0 = cd.K, k1 = -1;
+      cd.F[i].forEach((v, k) => { if (v > 0.5) { k0 = Math.min(k0, k); k1 = Math.max(k1, k); } });
+      const [sx, sy] = proj(fr, cd.cx[i], cd.cy[i]);
+      ctx.moveTo(sx, sy - gap * (k0 + 1)); ctx.lineTo(sx, sy - gap * (k1 + 1));
     }
     ctx.stroke();
   }
-  if (S.hoverStack != null && S.hoverStack >= 0) {
-    const i = S.hoverStack;
-    cd.F[i].forEach((v, k) => { if (v > 0.5 || t < 0.02) { at(t < 0.02 ? 0 : gap * (k + 1)); ctx.lineWidth = 2.2 / (dpr * s);
-      ctx.strokeStyle = css("--paper"); ctx.stroke(cd.paths[i]); } });
+  const levels = i => { const o = []; if (u >= 0.02) cd.F[i].forEach((v, k) => { if (v > 0.5) o.push(gap * (k + 1)); }); return o.length ? o : [0]; };
+  const outline = (i, w) => {
+    levels(i).forEach(off => { at(off); ctx.lineWidth = w / (dpr * fr.s); ctx.strokeStyle = paper; ctx.stroke(cd.paths[i]); });
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  if (S.hoverStack != null && S.hoverStack >= 0 && S.hoverStack !== S.pick) outline(S.hoverStack, 1.8);
+  if (S.pinI != null && fo > 0.01) {                 // the selected place: outlined, a ring, a pin through its layers
+    const i = S.pinI, ks = (S.focusKs || []).filter(k => cd.F[i][k] > 0.5), [px, py] = proj(fr, cd.cx[i], cd.cy[i]);
+    ctx.globalAlpha = fo; outline(i, 2.4);
+    ctx.strokeStyle = paper; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.ellipse(px, py, 11, 11 * (1 - 0.66 * u), 0, 0, 2 * Math.PI); ctx.stroke();
+    if (u > 0.2 && ks.length) {
+      ctx.globalAlpha = fo * Math.min(1, (u - 0.2) / 0.4);
+      ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, py - gap * (d3.max(ks) + 1) - 12); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = "600 12px " + css("--font-display"); ctx.textBaseline = "middle";
+      ks.forEach(k => {
+        const y = py - gap * (k + 1), lab = `C${k + 1}  ${f2(cd.F[i][k])}`, tw = ctx.measureText(lab).width;
+        ctx.fillStyle = "rgba(12,17,24,.82)"; ctx.fillRect(px + 10, y - 9, tw + 10, 18);
+        ctx.fillStyle = COMM[k]; ctx.fillText(lab, px + 15, y);
+        ctx.beginPath(); ctx.arc(px, y, 5, 0, 2 * Math.PI); ctx.fill();
+        ctx.lineWidth = 1.5; ctx.strokeStyle = css("--ink"); ctx.stroke();
+      });
+    }
+    ctx.globalAlpha = 1;
   }
 }
-function animateStack(to) {
-  const cd = S.curData; if (!cd) return;
-  if (REDUCED) { S.t = to; drawStack(cd); return; }
-  const from = S.t, t0 = performance.now(), dur = 1100;
-  cancelAnimationFrame(S.raf);
-  const step = now => { const u = Math.min(1, (now - t0) / dur); S.t = from + (to - from) * d3.easeCubicInOut(u); drawStack(cd);
-    if (u < 1) S.raf = requestAnimationFrame(step); };
-  S.raf = requestAnimationFrame(step);
+function stackFind(cd, px, py) {                    // the block group under the pointer, top plate first
+  const fr = S.fr; if (!fr) return -1;
+  if (fr.u < 0.02) return findCBG(cd, ...unproj(fr, px, py, 0));
+  const all = d3.range(cd.K - 1, -1, -1), fs = S.focusKs && S.focus > 0.5 ? S.focusKs : null;
+  for (const k of fs ? all.filter(k => fs.includes(k)).concat(all.filter(k => !fs.includes(k))) : all) {
+    const i = findCBG(cd, ...unproj(fr, px, py, fr.gap * (k + 1)), j => cd.F[j][k] > 0.5);
+    if (i >= 0) return i;
+  }
+  return findCBG(cd, ...unproj(fr, px, py, 0));     // the base map
 }
+const stackXY = ev => { const r = stackCanvas.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; };
 function stackHover(ev) {
   const cd = S.curData; if (!cd) return;
-  const r = stackCanvas.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
-  const t = S.mode === "stack" ? S.t : 0;
-  const { s, e, f0, gap } = isoParams(cd, r.width, r.height, t);
-  const a = s * 0.7071, b = s * TILT;
-  const inv = off => { const X = px - e, Y = py - (f0 - off); return [(X / a + Y / b) / 2, (Y / b - X / a) / 2]; };
-  let found = -1;
-  if (t < 0.02) { const [fx, fy] = inv(0); found = findCBG(cd, fx, fy); }
-  else for (let k = cd.K - 1; k >= 0 && found < 0; k--) { const [fx, fy] = inv(gap * (k + 1)); found = findCBG(cd, fx, fy, i => cd.F[i][k] > 0.5); }
-  if (found !== S.hoverStack) { S.hoverStack = found; drawStack(cd); }
-  if (found >= 0) showTip(ev, cbgTip(cd, found)); else hideTip();
+  const i = stackFind(cd, ...stackXY(ev));
+  stackCanvas.style.cursor = i >= 0 ? "pointer" : "";
+  if (i !== S.hoverStack) { S.hoverStack = i; drawStack(cd); }
+  if (i >= 0) showTip(ev, cbgTip(cd, i) + (i === S.pick ? "" : `<br><span style="color:var(--muted)">Click to show its communities</span>`));
+  else hideTip();
+}
+function stackClick(ev) {
+  const cd = S.curData; if (!cd) return;
+  const i = stackFind(cd, ...stackXY(ev));
+  if (i >= 0 && i !== S.pick) pickCBG(cd, i); else clearPick();
 }
 function cbgTip(cd, i) {
   const ks = cd.F[i].map((v, k) => [v, k]).filter(d => d[0] > 0.5).sort((x, y) => y[0] - x[0]);
@@ -436,13 +620,76 @@ function cbgTip(cd, i) {
   if (cd.isoSet.has(i)) return `<div class="t">Block group ${geoid(cd.ids[i])}</div>No trips to other block groups of the city, so no memberships`;
   return `<div class="t">Block group ${geoid(cd.ids[i])}</div>Overlap count <b>${cd.count[i]}</b>${ks.length ? "<br>" + chips : ""}`;
 }
+const andList = a => a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+function pickCBG(cd, i) {                           // show the communities of block group i
+  let ks = d3.range(cd.K).filter(k => cd.F[i][k] > 0.5).sort((x, y) => cd.F[i][y] - cd.F[i][x]);
+  if (!ks.length && !cd.isoSet.has(i) && d3.max(cd.F[i]) > 0) ks = [d3.maxIndex(cd.F[i])];
+  Object.assign(S, { pick: i, pinI: i, solo: null, focusKs: ks });
+  fillPick(cd, i, ks);
+  pickEl.classList.add("open"); pickEl.setAttribute("aria-hidden", "false");
+  if (window.innerWidth > 900) tweenTo("vpR", pickEl.offsetWidth + 24, 450);
+  tweenTo("focus", 1, 450);
+  requestAnimationFrame(() => drawMinis(cd, i, ks));
+  stackChips(); document.getElementById("stack-hint").classList.add("gone");
+  selectCBG(cd, i);                                 // the flow map below follows the selection
+}
+function clearPick(instant) {
+  if (S.pick == null && S.solo == null) return;
+  S.pick = null; S.solo = null;
+  pickEl.classList.remove("open"); pickEl.setAttribute("aria-hidden", "true");
+  tweenTo("focus", 0, instant ? 0 : 400); tweenTo("vpR", 0, instant ? 0 : 450);
+  stackChips();
+}
+function soloCommunity(k) {                         // a community chip: show that community alone
+  if (S.solo === k) { clearPick(); return; }
+  if (S.pick != null) { S.pick = null; pickEl.classList.remove("open"); pickEl.setAttribute("aria-hidden", "true"); tweenTo("vpR", 0, 450); }
+  Object.assign(S, { solo: k, pinI: null, focusKs: [k] });
+  tweenTo("focus", 1, 400); stackChips();
+}
+function fillPick(cd, i, ks) {
+  const chip = k => `<b style="color:${COMM[k]}">C${k + 1}</b>`, n = cd.count[i];
+  document.getElementById("pick-title").innerHTML = `Block group <span class="num">${geoid(cd.ids[i])}</span>`;
+  document.getElementById("pick-sum").innerHTML = !ks.length
+    ? "No trips to other block groups of the city, so no memberships."
+    : n === 0 ? `No membership exceeds 0.5. The largest, ${f2(cd.F[i][ks[0]])}, is in ${chip(ks[0])}, mapped below.`
+    : n === 1 ? `Membership above 0.5 in one community, ${chip(ks[0])}, mapped below.`
+    : `Overlap count <b>${n}</b>: this place is shared by ${andList(ks.map(chip))}, mapped below.`;
+  const mx = Math.max(1.6, d3.max(cd.F[i]));
+  document.getElementById("pick-memb").innerHTML = cd.F[i].map((v, k) =>
+    `<div class="row"><span class="num" style="color:${COMM[k]}">C${k + 1}</span><span class="bar"><b style="width:${100 * v / mx}%;background:${COMM[k]}"></b><span class="half" style="left:${100 * 0.5 / mx}%"></span></span><span class="num">${f2(v)}</span></div>`).join("");
+  const h = document.getElementById("pick-h");
+  h.hidden = !ks.length; h.textContent = ks.length > 1 ? "Where its communities lie" : "Where its community lies";
+  document.getElementById("pick-minis").innerHTML = ks.map(k =>
+    `<div class="mini"><canvas data-k="${k}" role="img" aria-label="Map of community C${k + 1}"></canvas><div class="lab">${chip(k)} · F ${f2(cd.F[i][k])} · ${fc(cd.sizes[k])} block groups</div></div>`).join("");
+}
+function drawMinis(cd, i) {                         // one north-up map per community of the selected place
+  const { base, layers } = layerCanvases(cd), paper = css("--paper"), dpr = window.devicePixelRatio || 1;
+  document.querySelectorAll("#pick-minis canvas").forEach(cv => {
+    const k = +cv.dataset.k, w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    const ctx = cv.getContext("2d"), s = Math.min((w - 12) / cd.w, (h - 12) / cd.h), ox = (w - s * cd.w) / 2, oy = (h - s * cd.h) / 2;
+    ctx.setTransform(dpr * s, 0, 0, dpr * s, dpr * ox, dpr * oy);
+    ctx.globalAlpha = 0.85; ctx.drawImage(base, 0, 0, cd.w, cd.h); ctx.globalAlpha = 1; ctx.drawImage(layers[k], 0, 0, cd.w, cd.h);
+    ctx.lineWidth = 1.6 / s; ctx.strokeStyle = paper; ctx.stroke(cd.paths[i]);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(ox + s * cd.cx[i], oy + s * cd.cy[i], 7, 0, 2 * Math.PI); ctx.stroke();
+  });
+}
 function stackLegend(cd) {
-  const sizes = d3.range(cd.K).map(k => d3.sum(cd.F, r => r[k] > 0.5));
-  document.getElementById("stack-legend").innerHTML = d3.range(cd.K).map(k =>
-    `<span><i style="background:${COMM[k]}"></i>C${k + 1} <span class="num">${sizes[k]}</span></span>`).join("");
+  const el = document.getElementById("stack-legend");
+  el.innerHTML = d3.range(cd.K).map(k => `<button type="button" data-k="${k}" aria-pressed="false" title="Show C${k + 1} alone"><i style="background:${COMM[k]}"></i>C${k + 1} <span class="num">${fc(cd.sizes[k])}</span></button>`).join("");
+  el.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => soloCommunity(+btn.dataset.k)));
   const isMember = i => !cd.isoSet.has(i) && d3.sum(cd.F[i]) > 0;          // block groups with nonzero membership
   const shared = d3.sum(d3.range(cd.n), i => isMember(i) && cd.count[i] >= 2), member = d3.sum(d3.range(cd.n), i => isMember(i));
-  document.getElementById("stack-cap").innerHTML = `<b>${cd.name}</b>: ${fc(cd.n)} block groups. ${fc(shared)} of the ${fc(member)} block groups with membership (${f1(100 * shared / member)}%) have memberships above 0.5 in two or more communities, the overlap zone; the largest overlap count is ${d3.max(cd.count)}. Numbers in the legend count each community's block groups. Hover over a place to read its memberships.`;
+  document.getElementById("stack-cap").innerHTML = `<b>${cd.name}</b>: ${fc(cd.n)} block groups. ${fc(shared)} of the ${fc(member)} block groups with membership (${f1(100 * shared / member)}%) have memberships above 0.5 in two or more communities, the overlap zone; the largest overlap count is ${d3.max(cd.count)}. The numbers count each community's block groups; choose one to show it alone.`;
+}
+function stackChips() {
+  const fs = S.pick != null || S.solo != null ? new Set(S.focusKs) : null;
+  document.querySelectorAll("#stack-legend button").forEach(b => {
+    const on = !!fs && fs.has(+b.dataset.k);
+    b.classList.toggle("on", on); b.classList.toggle("off", !!fs && !on); b.setAttribute("aria-pressed", String(on));
+  });
 }
 
 /* ---------------------------------------------------------------- flow map */
@@ -494,6 +741,249 @@ function flowEvent(ev, click) {
   if (click) { if (i >= 0) selectCBG(cd, i); return; }
   if (i !== S.hoverFlow) { S.hoverFlow = i; drawFlow(cd); }
   if (i >= 0) showTip(ev, cbgTip(cd, i) + `<br>F<sub>u</sub>·F<sub>v</sub> with selected: <b class="num">${f2(S.flowVal[i])}</b>`); else hideTip();
+}
+
+/* ---------------------------------------------------------------- points of interest and flows */
+const poiBase = document.getElementById("poi-base"), poiTop = document.getElementById("poi-top");
+const ORDER_LAB = { higher: "Higher-order", everyday: "Everyday", other: "Other categories" };
+const TYPE_COL = ["#f4b942", "#ff8a5c", "#e86fb0", "#c79bff", "#6fd3ff", "#8fe388", "#d9d27a", "#a8b3c4", "#e6a38a", "#4fd1c5", "#c9a47e", "#7d889a"];
+const TYPE_LAB = { Real: "Real estate", Educational: "Education", None: "No group" };
+const OVC = ["#131b26", "#1e2a39", "#2c3d53", "#3e566f", "#56739a"];      // overlap count 0, 1, 2, 3, 4 or more
+const P = { by: "order", show: { higher: true, everyday: true, other: false }, types: null, shade: true, flows: true,
+  view: d3.zoomIdentity, visible: false, raf: 0, hover: -1, data: null, slug: null, dotR: 1.6, queued: false };
+const orderCol = () => ({ higher: css("--F"), everyday: css("--overlap"), other: "#7d889a" });
+const poiStatus = t => { document.getElementById("poi-status").textContent = t; };
+function mulberry32(a) {
+  return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function loadPOI(slug) {
+  const key = "poi:" + slug;
+  if (!S.cache.has(key)) S.cache.set(key, getJSON(`data/poi/${slug}.json`));
+  return S.cache.get(key);
+}
+function poiDots(cd, pd) {                         // one dot per point of interest, at a random point of its block group
+  if (pd.dots) return pd.dots;                     // (about 25 ms for the 107,424 points of New York)
+  let n = 0; pd.cbg.forEach(r => { for (let j = 1; j < r.length; j += 2) n += r[j]; });
+  const x = new Float32Array(n), y = new Float32Array(n), code = new Uint8Array(n);
+  let p = 0;
+  for (let i = 0; i < pd.cbg.length; i++) {
+    const r = pd.cbg[i]; if (!r.length) continue;
+    const rnd = mulberry32(i * 9973 + 17), [bx0, by0, bx1, by1] = cd.bbox[i];
+    for (let j = 0; j < r.length; j += 2) for (let m = 0; m < r[j + 1]; m++) {
+      let px = cd.cx[i], py = cd.cy[i];
+      for (let tries = 0; tries < 40; tries++) {
+        const qx = bx0 + rnd() * (bx1 - bx0), qy = by0 + rnd() * (by1 - by0);
+        if (hit.isPointInPath(cd.paths[i], qx, qy)) { px = qx; py = qy; break; }
+      }
+      x[p] = px; y[p] = py; code[p] = r[j]; p++;
+    }
+  }
+  pd.dots = { x, y, code, n };
+  return pd.dots;
+}
+function poiFrame(cd) {                            // map units -> CSS pixels: fitted beside the text, then zoomed
+  const W = poiTop.clientWidth, H = poiTop.clientHeight;
+  let x0 = 12, x1 = W - 12, y0 = 14, y1 = H - 14;
+  if (window.innerWidth > 900) {
+    const t = document.querySelector("#poi .intro").getBoundingClientRect(), r = poiTop.getBoundingClientRect();
+    x0 = t.right - r.left + 20; x1 = W - 66;
+  }
+  const s = Math.max(1e-6, Math.min((x1 - x0) / cd.w, (y1 - y0) / cd.h)), v = P.view;
+  const ox = x0 + (x1 - x0 - s * cd.w) / 2, oy = y0 + (y1 - y0 - s * cd.h) / 2;
+  return { a: v.k * s, e: v.x + v.k * ox, f: v.y + v.k * oy, W, H, k: v.k, s, cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+}
+function fitCanvas(cv, W, H, dpr) {
+  if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+}
+function dotStyle(pd) {                            // the kinds of dot in drawing order, and the kind of each code
+  if (P.by === "order") {
+    const C = orderCol(), seq = ["other", "everyday", "higher"];             // higher-order on top
+    return { kind: c => seq.indexOf(pd.orders[c % 3]), kinds: seq.map(o => ({ on: P.show[o], col: C[o], al: o === "other" ? 0.5 : 0.9 })) };
+  }
+  const G = pd.groups.length, seq = [G - 1].concat(d3.range(G - 1));           // "None" first
+  return { kind: c => seq.indexOf(Math.floor(c / 3)), kinds: seq.map(g => ({ on: P.types[g], col: TYPE_COL[g], al: g === G - 1 ? 0.5 : 0.9 })) };
+}
+function drawPOIBase() {
+  const cd = S.curData, pd = P.data; if (!cd || P.slug !== cd.slug) return;
+  const dpr = window.devicePixelRatio || 1, M = poiFrame(cd);
+  if (!M.W || !M.H) return;
+  fitCanvas(poiBase, M.W, M.H, dpr);
+  const ctx = poiBase.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, poiBase.width, poiBase.height);
+  ctx.setTransform(dpr * M.a, 0, 0, dpr * M.a, dpr * M.e, dpr * M.f); ctx.lineJoin = "round";
+  ctx.lineWidth = 0.5 / M.a; ctx.strokeStyle = "rgba(6,10,16,.6)";
+  for (let i = 0; i < cd.n; i++) { ctx.fillStyle = OVC[P.shade ? Math.min(4, cd.count[i]) : 1]; ctx.fill(cd.paths[i]); ctx.stroke(cd.paths[i]); }
+  const D = pd && pd.dots; if (!D) return;
+  const st = dotStyle(pd), lut = Array.from({ length: 3 * pd.groups.length }, (_, c) => st.kind(c));
+  const paths = st.kinds.map(() => new Path2D()), r = Math.min(4.5, P.dotR * Math.sqrt(M.k)), h = r / 2;
+  for (let p = 0; p < D.n; p++) {
+    const j = lut[D.code[p]]; if (!st.kinds[j].on) continue;
+    const X = M.a * D.x[p] + M.e, Y = M.a * D.y[p] + M.f;
+    if (X < -5 || Y < -5 || X > M.W + 5 || Y > M.H + 5) continue;
+    paths[j].rect(X - h, Y - h, r, r);
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  st.kinds.forEach((s, j) => { if (s.on) { ctx.globalAlpha = s.al; ctx.fillStyle = s.col; ctx.fill(paths[j]); } });
+  ctx.globalAlpha = 1;
+}
+const arcOf = (cd, M, i, j) => {                   // a quadratic arc between two block-group centroids
+  const x0 = M.a * cd.cx[i] + M.e, y0 = M.a * cd.cy[i] + M.f, x1 = M.a * cd.cx[j] + M.e, y1 = M.a * cd.cy[j] + M.f;
+  return [x0, y0, (x0 + x1) / 2 - (y1 - y0) * 0.2, (y0 + y1) / 2 + (x1 - x0) * 0.2, x1, y1];
+};
+const onArc = (g, s) => { const u = 1 - s; return [u * u * g[0] + 2 * u * s * g[2] + s * s * g[4], u * u * g[1] + 2 * u * s * g[3] + s * s * g[5]]; };
+function drawPOITop(now) {
+  const cd = S.curData, pd = P.data; if (!cd || P.slug !== cd.slug) return;
+  const dpr = window.devicePixelRatio || 1, M = poiFrame(cd);
+  if (!M.W || !M.H) return;
+  fitCanvas(poiTop, M.W, M.H, dpr);
+  const ctx = poiTop.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, poiTop.width, poiTop.height);
+  if (pd && P.flows && pd.flows.length) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalCompositeOperation = "lighter"; ctx.lineCap = "round";
+    const v0 = pd.flows[pd.flows.length - 1][2], v1 = pd.flows[0][2], moving = P.visible && !REDUCED;
+    pd.flows.forEach(([i, j, v], n) => {
+      const g = arcOf(cd, M, i, j), t = (v - v0) / Math.max(1e-6, v1 - v0);
+      ctx.strokeStyle = `rgba(235,229,214,${0.12 + 0.3 * t})`; ctx.lineWidth = 0.7 + 2.1 * t;
+      ctx.beginPath(); ctx.moveTo(g[0], g[1]); ctx.quadraticCurveTo(g[2], g[3], g[4], g[5]); ctx.stroke();
+      if (moving) {                                // two trips travel each arc, one in each direction
+        const ph = (now / (2400 + 300 * (n % 7)) + n * 0.618) % 1;
+        ctx.fillStyle = `rgba(255,232,180,${0.5 + 0.45 * t})`;
+        for (const s of [ph, 1 - ph]) { const [x, y] = onArc(g, s); ctx.beginPath(); ctx.arc(x, y, 1.2 + 1.3 * t, 0, 2 * Math.PI); ctx.fill(); }
+      }
+    });
+    ctx.globalCompositeOperation = "source-over";
+  }
+  if (P.hover >= 0 && P.hover < cd.n) {
+    ctx.setTransform(dpr * M.a, 0, 0, dpr * M.a, dpr * M.e, dpr * M.f);
+    ctx.lineWidth = 1.8 / M.a; ctx.strokeStyle = css("--paper"); ctx.stroke(cd.paths[P.hover]);
+  }
+}
+function poiLoop(now) {
+  P.raf = 0; drawPOITop(now);
+  if (P.visible && P.flows && P.data && !REDUCED) P.raf = requestAnimationFrame(poiLoop);
+}
+function poiPlay() { if (!P.raf) P.raf = requestAnimationFrame(poiLoop); }
+function poiRender() {
+  if (P.queued) return;
+  P.queued = true;
+  requestAnimationFrame(now => { P.queued = false; drawPOIBase(); if (!P.raf) drawPOITop(now); });
+}
+function clearPOI() {
+  P.slug = null; P.data = null; P.hover = -1; P.types = null;
+  [poiBase, poiTop].forEach(cv => cv.getContext("2d").clearRect(0, 0, cv.width, cv.height));
+}
+async function showPOI() {
+  const cd = S.curData, slug = S.cur;
+  if (!P.visible || !cd || cd.slug !== slug) return;
+  if (P.slug === slug) { poiRender(); poiPlay(); return; }
+  P.slug = slug; P.data = null; P.hover = -1; P.types = null;
+  poiStatus("Loading points of interest…");
+  let pd;
+  try { pd = await loadPOI(slug); } catch (e) { poiStatus("Could not load the points of interest: " + e.message); return; }
+  if (S.cur !== slug) return;
+  P.data = pd; poiChips(); poiG();
+  const D = poiDots(cd, pd), M = poiFrame(cd);
+  P.dotR = Math.max(1.2, Math.min(2.6, 0.45 * Math.sqrt((M.s * cd.w) * (M.s * cd.h) / Math.max(1, D.n))));
+  poiStatus(""); d3.select(poiTop).call(poiZoom.transform, d3.zoomIdentity); poiRender(); poiPlay();
+}
+const chipHtml = (attr, on, col, lab, n) =>
+  `<button type="button" ${attr} aria-pressed="${on}" class="${on ? "" : "off"}"><i style="background:${col}"></i>${lab} <span class="num">${fc(n)}</span></button>`;
+function poiChips() {
+  const pd = P.data, el = document.getElementById("poi-chips"); if (!pd) return;
+  if (P.by === "order") {
+    const C = orderCol();
+    el.innerHTML = pd.orders.map(o => chipHtml(`data-o="${o}"`, P.show[o], C[o], ORDER_LAB[o], pd.n[o])).join("");
+  } else {
+    if (!pd.typeN) { pd.typeN = pd.groups.map(() => 0); pd.cbg.forEach(r => { for (let j = 0; j < r.length; j += 2) pd.typeN[Math.floor(r[j] / 3)] += r[j + 1]; }); }
+    if (!P.types) P.types = pd.groups.map(g => g !== "None");
+    el.innerHTML = pd.groups.map((g, k) => chipHtml(`data-g="${k}"`, P.types[k], TYPE_COL[k], TYPE_LAB[g] || g, pd.typeN[k])).join("");
+  }
+  el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    if (b.dataset.o) P.show[b.dataset.o] = !P.show[b.dataset.o]; else P.types[+b.dataset.g] = !P.types[+b.dataset.g];
+    poiChips(); poiRender();
+  }));
+}
+function poiG() {                                  // G by overlap count: the city against the median of the 50 cities
+  const pd = P.data, el = document.getElementById("poi-g"), c = S.by.get(S.cur); if (!pd || !c) return;
+  document.getElementById("poi-gcity").textContent = c.name;
+  if (!pd.G) { el.innerHTML = `<p class="cap">Not available for this city.</p>`; return; }
+  const lv = [["2", "2"], ["3", "3"], ["ge4", "≥4"]], has = k => pd.G[k] != null && isFinite(pd.G[k]);
+  const vals = lv.flatMap(([k]) => [has(k) ? pd.G[k] : 0, pd.G_median[k]]);
+  const W = Math.max(240, el.clientWidth), H = 122, m = { l: 34, r: 8, t: 18, b: 30 };
+  const x = d3.scaleBand().domain(lv.map(d => d[0])).range([m.l, W - m.r]).padding(0.38);
+  const y = d3.scaleLinear().domain([Math.min(0, d3.min(vals)), Math.max(0.5, d3.max(vals))]).nice().range([H - m.b, m.t]);
+  const svg = d3.create("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+  svg.append("g").attr("class", "grid").selectAll("line").data(y.ticks(4)).join("line")
+    .attr("x1", m.l).attr("x2", W - m.r).attr("y1", d => y(d)).attr("y2", d => y(d));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickSizeOuter(0));
+  svg.append("line").attr("x1", m.l).attr("x2", W - m.r).attr("y1", y(0)).attr("y2", y(0)).attr("stroke", css("--faint"));
+  const g = svg.append("g").selectAll("g").data(lv).join("g");
+  g.filter(([k]) => has(k)).append("rect").attr("x", ([k]) => x(k)).attr("width", x.bandwidth()).attr("rx", 2)
+    .attr("y", ([k]) => y(Math.max(0, pd.G[k]))).attr("height", ([k]) => Math.abs(y(pd.G[k]) - y(0))).attr("fill", css("--F"));
+  g.append("line").attr("x1", ([k]) => x(k) - 5).attr("x2", ([k]) => x(k) + x.bandwidth() + 5)
+    .attr("y1", ([k]) => y(pd.G_median[k])).attr("y2", ([k]) => y(pd.G_median[k])).attr("stroke", css("--paper")).attr("stroke-width", 2);
+  g.filter(([k]) => has(k)).append("text").attr("class", "lab").attr("x", ([k]) => x(k) + x.bandwidth() / 2)
+    .attr("y", ([k]) => y(Math.max(pd.G[k], pd.G_median[k], 0)) - 5).attr("text-anchor", "middle")
+    .style("font-family", "var(--font-mono)").style("font-size", "11px").text(([k]) => f2(pd.G[k]));
+  g.append("text").attr("x", ([k]) => x(k) + x.bandwidth() / 2).attr("y", H - m.b + 14).attr("text-anchor", "middle").text(([, l]) => l);
+  svg.append("text").attr("x", W - m.r).attr("y", H - 2).attr("text-anchor", "end").text("overlap count, against 0–1");
+  el.replaceChildren(svg.node());
+}
+function poiTip(cd, pd, i) {
+  const r = pd.cbg[i] || [], by = [0, 0, 0], grp = pd.groups.map(() => 0);
+  for (let j = 0; j < r.length; j += 2) { by[r[j] % 3] += r[j + 1]; grp[Math.floor(r[j] / 3)] += r[j + 1]; }
+  const top = grp.map((v, k) => [v, k]).filter(([v, k]) => v > 0 && pd.groups[k] !== "None").sort((a, b) => b[0] - a[0]).slice(0, 3);
+  return `<div class="t">Block group ${geoid(cd.ids[i])}</div>Overlap count <b>${cd.count[i]}</b><br>` +
+    `<b class="num">${fc(by[0] + by[1] + by[2])}</b> points of interest: <span style="color:${css("--F")}">${fc(by[0])} higher-order</span>, ` +
+    `<span style="color:${css("--overlap")}">${fc(by[1])} everyday</span>` +
+    (top.length ? `<br>Most: ${top.map(([v, k]) => `${TYPE_LAB[pd.groups[k]] || pd.groups[k]} ${fc(v)}`).join(", ")}` : "");
+}
+function poiHover(ev) {
+  const cd = S.curData, pd = P.data; if (!cd || !pd || P.slug !== cd.slug || ev.buttons) return;
+  const r = poiTop.getBoundingClientRect(), M = poiFrame(cd);
+  const i = findCBG(cd, (ev.clientX - r.left - M.e) / M.a, (ev.clientY - r.top - M.f) / M.a);
+  if (i !== P.hover) { P.hover = i; if (!P.raf) drawPOITop(performance.now()); }
+  if (i >= 0) showTip(ev, poiTip(cd, pd, i)); else hideTip();
+}
+const poiZoom = d3.zoom().scaleExtent([1, 40])
+  .filter(ev => ev.type === "wheel" ? ev.ctrlKey || ev.metaKey : ev.type.startsWith("touch") ? ev.touches.length > 1 : !ev.button)
+  .on("zoom", ev => { P.view = ev.transform; hideTip(); poiRender(); });
+function poiZoomBy(f) {
+  const cd = S.curData; if (!cd) return;
+  const M = poiFrame(cd);
+  d3.select(poiTop).transition().duration(REDUCED ? 0 : 350).call(poiZoom.scaleBy, f, [M.cx, M.cy]);
+}
+function initPOI() {
+  d3.select(poiTop).call(poiZoom);
+  let pulse;
+  poiTop.addEventListener("wheel", ev => {               // a plain scroll keeps scrolling the page
+    if (ev.ctrlKey || ev.metaKey) return;
+    const h = document.getElementById("poi-hint"); h.classList.add("pulse");
+    clearTimeout(pulse); pulse = setTimeout(() => h.classList.remove("pulse"), 1400);
+  }, { passive: true });
+  poiTop.addEventListener("mousemove", ev => requestAnimationFrame(() => poiHover(ev)));
+  poiTop.addEventListener("mouseleave", () => { P.hover = -1; hideTip(); if (!P.raf) drawPOITop(performance.now()); });
+  document.getElementById("poi-zin").addEventListener("click", () => poiZoomBy(1.8));
+  document.getElementById("poi-zout").addEventListener("click", () => poiZoomBy(1 / 1.8));
+  document.getElementById("poi-zreset").addEventListener("click", () =>
+    d3.select(poiTop).transition().duration(REDUCED ? 0 : 450).call(poiZoom.transform, d3.zoomIdentity));
+  const by = mode => { P.by = mode; document.getElementById("poi-by-order").classList.toggle("on", mode === "order");
+    document.getElementById("poi-by-type").classList.toggle("on", mode === "type"); poiChips(); poiRender(); };
+  document.getElementById("poi-by-order").addEventListener("click", () => by("order"));
+  document.getElementById("poi-by-type").addEventListener("click", () => by("type"));
+  [["poi-shade", "shade"], ["poi-flows", "flows"]].forEach(([id, key]) => {
+    const b = document.getElementById(id);
+    b.addEventListener("click", () => { P[key] = !P[key]; b.classList.toggle("on", P[key]); b.classList.toggle("off", !P[key]);
+      b.setAttribute("aria-pressed", String(P[key])); poiRender(); if (key === "flows") poiPlay(); });
+  });
+  document.getElementById("poi-ovl").innerHTML = `<span class="k">Overlap count</span>` +
+    ["0", "1", "2", "3", "≥4"].map((l, i) => `<span><i style="background:${OVC[i]}"></i>${l}</span>`).join("");
+  if (window.matchMedia("(hover: none)").matches) document.getElementById("poi-hint").textContent = "Pinch to zoom; drag with two fingers to pan";
+  new IntersectionObserver(es => es.forEach(e => {
+    P.visible = e.isIntersecting;
+    if (P.visible) showPOI();
+  }), { rootMargin: "120px 0px" }).observe(document.getElementById("poi"));
 }
 
 /* ---------------------------------------------------------------- city charts */
@@ -686,7 +1176,7 @@ function highlight() {
 /* ---------------------------------------------------------------- city selection */
 async function setCity(slug, scroll) {
   if (!S.by.has(slug)) slug = "austin";
-  S.cur = slug; document.getElementById("city-select").value = slug;
+  S.cur = slug; document.getElementById("city-select").value = slug; document.getElementById("poi-city").value = slug;
   const c = S.by.get(slug);
   l1Chart(c); cpcChart(c); drawNation(); drawSize(); drawCategories(); highlight();
   if (scroll) document.getElementById("atlas").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" });
@@ -694,11 +1184,13 @@ async function setCity(slug, scroll) {
   let cd;
   try { cd = await loadCity(slug); } catch (e) { document.getElementById("stack-cap").textContent = "Could not load " + c.name + ": " + e.message; return; }
   if (S.cur !== slug) return;
-  S.curData = cd; S.hoverStack = null; S.hoverFlow = null;
-  stackLegend(cd);
+  clearPick(true);
+  Object.assign(S, { curData: cd, hoverStack: null, hoverFlow: null, pinI: null, focusKs: null, focus: 0, vpR: 0 });
+  stackLegend(cd); stackChips();
   let best = 0; cd.count.forEach((v, i) => { if (v > cd.count[best] || (v === cd.count[best] && d3.sum(cd.F[i]) > d3.sum(cd.F[best]))) best = i; });
   selectCBG(cd, best);
-  S.t = 0; drawStack(cd); if (S.mode === "stack") animateStack(1);
+  S.t = 0; drawStack(cd); if (S.mode === "stack") tweenTo("t", 1, 1100);
+  clearPOI(); showPOI();
 }
 async function init() {
   try { S.doc = await getJSON("data/cities.json"); }
@@ -707,10 +1199,17 @@ async function init() {
   const sel = document.getElementById("city-select");
   sel.innerHTML = S.doc.cities.slice().sort((a, b) => d3.ascending(a.name, b.name)).map(c => `<option value="${c.slug}">${c.name}, ${c.state}</option>`).join("");
   sel.addEventListener("change", () => setCity(sel.value, false));
-  document.getElementById("mode-stack").addEventListener("click", () => { S.mode = "stack"; toggleMode(); animateStack(1); });
-  document.getElementById("mode-flat").addEventListener("click", () => { S.mode = "flat"; toggleMode(); if (S.curData) drawStack(S.curData); });
+  const poiSel = document.getElementById("poi-city");
+  poiSel.innerHTML = sel.innerHTML; poiSel.addEventListener("change", () => setCity(poiSel.value, false));
+  document.getElementById("mode-stack").addEventListener("click", () => { S.mode = "stack"; toggleMode(); tweenTo("t", 1, 1100); });
+  document.getElementById("mode-flat").addEventListener("click", () => { S.mode = "flat"; toggleMode(); tweenTo("t", 0, 900); });
   stackCanvas.addEventListener("mousemove", ev => requestAnimationFrame(() => stackHover(ev)));
   stackCanvas.addEventListener("mouseleave", () => { S.hoverStack = null; hideTip(); if (S.curData) drawStack(S.curData); });
+  stackCanvas.addEventListener("click", stackClick);
+  document.getElementById("pick-close").addEventListener("click", () => clearPick());
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape") clearPick(); });
+  if (window.matchMedia("(hover: none)").matches) document.getElementById("stack-hint").textContent = "Tap a block group to see the communities it belongs to";
+  initPOI();
   flowCanvas.addEventListener("mousemove", ev => requestAnimationFrame(() => flowEvent(ev, false)));
   flowCanvas.addEventListener("mouseleave", () => { S.hoverFlow = null; hideTip(); if (S.curData) drawFlow(S.curData); });
   flowCanvas.addEventListener("click", ev => flowEvent(ev, true));
@@ -720,7 +1219,9 @@ async function init() {
   window.addEventListener("hashchange", () => { const k = location.hash.slice(1); if (S.by.has(k) && k !== S.cur) setCity(k, true); });
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => {
     const c = S.by.get(S.cur); l1Chart(c); cpcChart(c); drawStrips(); drawNation(); drawSize(); drawCategories(); highlight();
-    if (S.curData) { drawStack(S.curData); drawFlow(S.curData); } }, 150); });
+    if (S.curData) { if (S.pick != null) { if (window.innerWidth > 900) S.vpR = pickEl.offsetWidth + 24; drawMinis(S.curData, S.pick); }
+      drawStack(S.curData); drawFlow(S.curData); }
+    poiRender(); if (P.data) poiG(); }, 150); });
 }
 function toggleMode() {
   document.getElementById("mode-stack").classList.toggle("on", S.mode === "stack");
